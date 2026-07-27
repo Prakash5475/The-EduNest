@@ -1,0 +1,40 @@
+export const ADMIN_BASE = "/admin";
+export const PORTAL_BASE = "/portal";
+
+export const paths = {
+  home: "/",
+  about: "/about",
+  shop: "/shop",
+  categories: "/categories",
+  productDetails: (id: string) => `/shop/${id}`,
+  cart: "/cart",
+  checkout: "/checkout",
+  bulkOrders: "/bulk-orders",
+  requestQuotation: "/request-quotation",
+  admin: {
+    dashboard: `${ADMIN_BASE}`,
+    schools: `${ADMIN_BASE}/schools`,
+    dealers: `${ADMIN_BASE}/dealers`,
+    products: `${ADMIN_BASE}/products`,
+    quotations: `${ADMIN_BASE}/quotations`,
+    orders: `${ADMIN_BASE}/orders`,
+    payments: `${ADMIN_BASE}/payments`,
+    invoices: `${ADMIN_BASE}/invoices`,
+    analytics: `${ADMIN_BASE}/analytics`,
+    reports: `${ADMIN_BASE}/reports`,
+    settings: `${ADMIN_BASE}/settings`,
+  },
+  portal: {
+    dashboard: `${PORTAL_BASE}`,
+    orders: `${PORTAL_BASE}/orders`,
+    orderTracking: (id: string) => `${PORTAL_BASE}/orders/${id}`,
+    wishlist: `${PORTAL_BASE}/wishlist`,
+    rewards: `${PORTAL_BASE}/rewards`,
+    subscriptions: `${PORTAL_BASE}/subscriptions`,
+    resources: `${PORTAL_BASE}/resources`,
+    events: `${PORTAL_BASE}/events`,
+    support: `${PORTAL_BASE}/support`,
+    notifications: `${PORTAL_BASE}/notifications`,
+    profile: `${PORTAL_BASE}/profile`,
+  },
+} as const;
