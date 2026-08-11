@@ -1,0 +1,2919 @@
+// ============================================================================
+// THE EDUNEST — Prisma schema (MySQL)
+// Auto-derived from edunest_database_schema.sql (144 tables / 204 FKs — 138
+// tables / 197 FKs verified live in Phase 1; +6 tables added across Phases
+// 2-4 (Customization, Checkout, Production Tracking), structurally checked
+// but not yet re-run against a live server).
+// Do not hand-edit column
+// types here — change the SQL and regenerate via scripts/sql_to_prisma.py.
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserUserType {
+  school
+  dealer
+  admin
+  staff
+}
+
+enum UserStatus {
+  active
+  inactive
+  suspended
+  pending_verification
+}
+
+enum OtpPurpose {
+  login
+  signup
+  password_reset
+  phone_verify
+  email_verify
+  transaction
+}
+
+enum LoginHistoryStatus {
+  success
+  failed
+}
+
+enum DeviceTokenPlatform {
+  android
+  ios
+  web
+}
+
+enum SchoolSchoolType {
+  preschool
+  k12
+  play_school
+  montessori
+  other
+}
+
+enum SchoolStatus {
+  active
+  inactive
+  pending_approval
+  blocked
+}
+
+enum SchoolAddressAddressType {
+  registered
+  billing
+  shipping
+  branch
+}
+
+enum SchoolDocumentDocumentType {
+  registration_certificate
+  gst_certificate
+  pan_card
+  affiliation_letter
+  other
+}
+
+enum DealerBusinessType {
+  manufacturer
+  distributor
+  wholesaler
+  retailer
+}
+
+enum DealerStatus {
+  active
+  inactive
+  pending_approval
+  blocked
+}
+
+enum DealerAddressAddressType {
+  registered
+  warehouse
+  billing
+}
+
+enum DealerDocumentDocumentType {
+  gst_certificate
+  pan_card
+  trade_license
+  bank_proof
+  other
+}
+
+enum ProductStatus {
+  draft
+  active
+  inactive
+  discontinued
+}
+
+enum AttributeInputType {
+  select
+  text
+  number
+  boolean
+}
+
+enum StockHistoryReason {
+  purchase
+  sale
+  return
+  adjustment
+  damage
+}
+
+enum KitStatus {
+  draft
+  active
+  inactive
+}
+
+enum CurriculumSolutionStatus {
+  draft
+  active
+  inactive
+}
+
+enum CertificateCertificateType {
+  curriculum_completion
+  event_participation
+  training_completion
+}
+
+enum BrandingServiceServiceType {
+  uniform
+  id_card
+  printing
+  website
+  other
+}
+
+enum UniformDesignStatus {
+  proposed
+  approved
+  in_production
+  delivered
+}
+
+enum IdCardStatus {
+  proposed
+  approved
+  in_production
+  delivered
+}
+
+enum PrintingServiceStatus {
+  requested
+  approved
+  in_production
+  delivered
+}
+
+enum WebsiteServiceStatus {
+  requested
+  in_design
+  in_development
+  live
+}
+
+enum BrandingGalleryServiceType {
+  uniform
+  id_card
+  printing
+  website
+  other
+}
+
+enum ShoppingCartStatus {
+  active
+  converted
+  abandoned
+}
+
+enum CartItemItemType {
+  product
+  kit
+}
+
+enum CustomizationRequestStatus {
+  pending_review
+  reviewed
+  approved
+  rejected
+}
+
+enum CustomizationFileFileType {
+  logo
+  artwork
+  reference
+}
+
+enum OrderStatus {
+  pending
+  confirmed
+  processing
+  shipped
+  delivered
+  completed
+  cancelled
+  returned
+}
+
+enum OrderPaymentStatus {
+  unpaid
+  partially_paid
+  paid
+  refunded
+}
+
+enum OrderPriority {
+  critical
+  high
+  medium
+  normal
+}
+
+enum OrderItemItemType {
+  product
+  kit
+}
+
+enum ProductionCheckpointStage {
+  order_received
+  cutting
+  stitching
+  logo
+  printing
+  color_matching
+  quality_check
+  ready
+  packed
+  dispatched
+  delivered
+  completed
+}
+
+enum ReturnStatus {
+  requested
+  approved
+  rejected
+  picked_up
+  completed
+}
+
+enum RefundRefundMethod {
+  original_payment
+  wallet
+  bank_transfer
+}
+
+enum RefundStatus {
+  initiated
+  processing
+  completed
+  failed
+}
+
+enum InvoiceInvoiceType {
+  advance_receipt
+  final_invoice
+}
+
+enum InvoiceStatus {
+  issued
+  paid
+  overdue
+  void
+}
+
+enum ShipmentStatus {
+  pending
+  picked_up
+  in_transit
+  out_for_delivery
+  delivered
+  failed
+}
+
+enum DeliveryUpdateUpdateType {
+  note
+  reschedule
+  failed_attempt
+  delivered
+}
+
+enum QuotationRequestStatus {
+  open
+  in_review
+  quoted
+  closed
+  expired
+}
+
+enum DealerQuotationStatus {
+  submitted
+  shortlisted
+  accepted
+  rejected
+  withdrawn
+}
+
+enum PaymentMethodMethodType {
+  card
+  upi
+  netbanking
+  bank_transfer
+  wallet
+}
+
+enum PaymentPaymentType {
+  advance
+  balance
+  full
+  refund
+}
+
+enum PaymentStatus {
+  initiated
+  pending
+  success
+  failed
+  refunded
+}
+
+enum PaymentTransactionTransactionType {
+  authorization
+  capture
+  refund
+  chargeback
+}
+
+enum PaymentTransactionStatus {
+  success
+  failed
+  pending
+}
+
+enum CouponDiscountType {
+  percentage
+  flat
+}
+
+enum TaxTaxType {
+  gst
+  vat
+  other
+}
+
+enum PlanBillingCycle {
+  monthly
+  quarterly
+  yearly
+}
+
+enum SubscriptionStatus {
+  active
+  cancelled
+  expired
+  past_due
+}
+
+enum BlogStatus {
+  draft
+  published
+  archived
+}
+
+enum TeacherTrainingMode {
+  online
+  offline
+  hybrid
+}
+
+enum TeacherTrainingStatus {
+  scheduled
+  ongoing
+  completed
+  cancelled
+}
+
+enum SuccessStoryStatus {
+  draft
+  published
+}
+
+enum ResourceResourceType {
+  article
+  template
+  guide
+  checklist
+  other
+}
+
+enum EventEventType {
+  webinar
+  workshop
+  expo
+  conference
+  other
+}
+
+enum EventMode {
+  online
+  offline
+  hybrid
+}
+
+enum EventStatus {
+  scheduled
+  ongoing
+  completed
+  cancelled
+}
+
+enum EventRegistrationStatus {
+  registered
+  waitlisted
+  cancelled
+}
+
+enum SupportTicketCategory {
+  order
+  payment
+  product
+  account
+  technical
+  other
+}
+
+enum SupportTicketPriority {
+  low
+  medium
+  high
+  urgent
+}
+
+enum SupportTicketStatus {
+  open
+  in_progress
+  waiting_on_customer
+  resolved
+  closed
+}
+
+enum LiveChatStatus {
+  open
+  active
+  closed
+}
+
+enum FeedbackFeedbackType {
+  platform
+  order
+  support
+  feature_request
+}
+
+enum NotificationSettingChannel {
+  email
+  sms
+  push
+  in_app
+  whatsapp
+}
+
+enum EmailQueueStatus {
+  queued
+  sending
+  sent
+  failed
+}
+
+enum SmsQueueStatus {
+  queued
+  sending
+  sent
+  failed
+}
+
+enum PushQueueStatus {
+  queued
+  sending
+  sent
+  failed
+}
+
+enum AnalyticsSnapshotScopeType {
+  platform
+  school
+  dealer
+}
+
+enum AnnouncementAudience {
+  all
+  schools
+  dealers
+  admins
+}
+
+enum UploadedFileStorageProvider {
+  s3
+  gcs
+  azure_blob
+  local
+  cloudinary
+}
+
+enum MediaMediaType {
+  image
+  video
+  audio
+}
+
+enum ApplicationSettingValueType {
+  string
+  number
+  boolean
+  json
+}
+
+enum ThemeSettingScopeType {
+  platform
+  school
+}
+
+enum ErrorLogErrorLevel {
+  info
+  warning
+  error
+  critical
+}
+
+model Role {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  name String @db.VarChar(60)
+  slug String @db.VarChar(60)
+  description String? @db.VarChar(255)
+  isSystem Boolean @map("is_system")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  @@unique([slug], map: "uq_roles_slug")
+  @@unique([uuid], map: "uq_roles_uuid")
+  rolePermissions RolePermission[] @relation("fk_rp_role")
+  userRoles UserRole[] @relation("fk_ur_role")
+  @@map("roles")
+}
+
+model Permission {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  name String @db.VarChar(100)
+  module String @db.VarChar(60)
+  description String? @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  @@unique([name], map: "uq_permissions_name")
+  @@index([module], map: "idx_permissions_module")
+  rolePermissions RolePermission[] @relation("fk_rp_permission")
+  @@map("permissions")
+}
+
+model RolePermission {
+  roleId BigInt @map("role_id") @db.UnsignedBigInt
+  permissionId BigInt @map("permission_id") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  @@id([roleId, permissionId])
+  role Role @relation("fk_rp_role", fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  permission Permission @relation("fk_rp_permission", fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("role_permissions")
+}
+
+model User {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  fullName String @map("full_name") @db.VarChar(150)
+  email String @db.VarChar(190)
+  phone String? @db.VarChar(20)
+  passwordHash String @map("password_hash") @db.VarChar(255)
+  userType UserUserType @map("user_type")
+  status UserStatus
+  emailVerifiedAt DateTime? @map("email_verified_at")
+  phoneVerifiedAt DateTime? @map("phone_verified_at")
+  lastLoginAt DateTime? @map("last_login_at")
+  failedLoginCount Int @map("failed_login_count") @db.UnsignedSmallInt
+  lockedUntil DateTime? @map("locked_until")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  @@unique([email], map: "uq_users_email")
+  @@unique([uuid], map: "uq_users_uuid")
+  @@index([phone], map: "idx_users_phone")
+  @@index([userType, status], map: "idx_users_type_status")
+  userRoles UserRole[] @relation("fk_ur_user")
+  sessions Session[] @relation("fk_sessions_user")
+  passwordResets PasswordReset[] @relation("fk_pwreset_user")
+  otps Otp[] @relation("fk_otps_user")
+  loginHistory LoginHistory[] @relation("fk_loginhist_user")
+  deviceTokens DeviceToken[] @relation("fk_devicetok_user")
+  schools School[] @relation("fk_schools_user")
+  schoolDocuments SchoolDocument[] @relation("fk_schooldocs_verifier")
+  dealers Dealer[] @relation("fk_dealers_user")
+  products Product[] @relation("fk_products_creator")
+  priceHistory PriceHistory[] @relation("fk_pricehist_user")
+  certificates Certificate[] @relation("fk_certificates_user")
+  downloads Download[] @relation("fk_downloads_user")
+  customizationRequests CustomizationRequest[] @relation("fk_customreq_reviewer")
+  customizationStatusHistory CustomizationStatusHistory[] @relation("fk_customstatushist_user")
+  orderStatusHistory OrderStatusHistory[] @relation("fk_orderstatushist_user")
+  orderNotes OrderNote[] @relation("fk_ordernotes_author")
+  productionCheckpoints ProductionCheckpoint[] @relation("fk_prodcheckpoint_user")
+  cancellations Cancellation[] @relation("fk_cancellations_user")
+  dealerQuotations DealerQuotation[] @relation("fk_dealerquot_assignedby")
+  quotationStatusHistory QuotationStatusHistory[] @relation("fk_quotstatushist_user")
+  blogs Blog[] @relation("fk_blogs_author")
+  eventRegistrations EventRegistration[] @relation("fk_eventreg_user")
+  supportTickets_fk_tickets_raisedby SupportTicket[] @relation("fk_tickets_raisedby")
+  supportTickets_fk_tickets_assignee SupportTicket[] @relation("fk_tickets_assignee")
+  ticketReplies TicketReply[] @relation("fk_ticketreplies_author")
+  liveChats_fk_livechats_user LiveChat[] @relation("fk_livechats_user")
+  liveChats_fk_livechats_agent LiveChat[] @relation("fk_livechats_agent")
+  liveChatMessages LiveChatMessage[] @relation("fk_chatmsg_sender")
+  feedback Feedback[] @relation("fk_feedback_user")
+  notificationSettings NotificationSetting[] @relation("fk_notifsettings_user")
+  whatsappMessageLogs WhatsappMessageLog[] @relation("fk_whatsapplog_user")
+  dashboardWidgets DashboardWidget[] @relation("fk_dashwidget_user")
+  recentActivity RecentActivity[] @relation("fk_recentactivity_user")
+  uploadedFiles UploadedFile[] @relation("fk_uploadedfiles_user")
+  activityLogs ActivityLog[] @relation("fk_activitylogs_user")
+  @@map("users")
+}
+
+model UserRole {
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  roleId BigInt @map("role_id") @db.UnsignedBigInt
+  assignedAt DateTime @default(now()) @map("assigned_at")
+  @@id([userId, roleId])
+  user User @relation("fk_ur_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  role Role @relation("fk_ur_role", fields: [roleId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("user_roles")
+}
+
+model Session {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  refreshTokenHash String @map("refresh_token_hash") @db.VarChar(255)
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+  userAgent String? @map("user_agent") @db.VarChar(255)
+  expiresAt DateTime @map("expires_at")
+  revokedAt DateTime? @map("revoked_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  user User @relation("fk_sessions_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([uuid], map: "uq_sessions_uuid")
+  @@index([userId], map: "idx_sessions_user")
+  @@index([expiresAt], map: "idx_sessions_expires")
+  @@map("sessions")
+}
+
+model PasswordReset {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  tokenHash String @map("token_hash") @db.VarChar(255)
+  expiresAt DateTime @map("expires_at")
+  usedAt DateTime? @map("used_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  user User @relation("fk_pwreset_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([userId], map: "idx_pwreset_user")
+  @@index([tokenHash], map: "idx_pwreset_token")
+  @@map("password_resets")
+}
+
+model Otp {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt? @map("user_id") @db.UnsignedBigInt
+  identifier String @db.VarChar(190)
+  otpHash String @map("otp_hash") @db.VarChar(255)
+  purpose OtpPurpose
+  expiresAt DateTime @map("expires_at")
+  consumedAt DateTime? @map("consumed_at")
+  attemptCount Int @map("attempt_count") @db.UnsignedTinyInt
+  createdAt DateTime @default(now()) @map("created_at")
+  user User? @relation("fk_otps_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([identifier, purpose], map: "idx_otps_identifier")
+  @@map("otps")
+}
+
+model LoginHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+  userAgent String? @map("user_agent") @db.VarChar(255)
+  status LoginHistoryStatus
+  reason String? @db.VarChar(120)
+  createdAt DateTime @default(now()) @map("created_at")
+  user User @relation("fk_loginhist_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([userId, createdAt], map: "idx_loginhist_user_date")
+  @@map("login_history")
+}
+
+model DeviceToken {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  deviceToken String @map("device_token") @db.VarChar(255)
+  platform DeviceTokenPlatform
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  user User @relation("fk_devicetok_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([deviceToken], map: "uq_device_token")
+  @@index([userId], map: "idx_devicetok_user")
+  pushQueue PushQueue[] @relation("fk_pushqueue_devicetoken")
+  @@map("device_tokens")
+}
+
+model School {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  schoolName String @map("school_name") @db.VarChar(200)
+  schoolCode String @map("school_code") @db.VarChar(30)
+  schoolType SchoolSchoolType @map("school_type")
+  boardAffiliation String? @map("board_affiliation") @db.VarChar(80)
+  registrationNumber String? @map("registration_number") @db.VarChar(80)
+  gstin String? @db.VarChar(15)
+  status SchoolStatus
+  logoFileId BigInt? @map("logo_file_id") @db.UnsignedBigInt
+  logoFile UploadedFile? @relation("fk_school_logofileid", fields: [logoFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  user User @relation("fk_schools_user", fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  @@unique([schoolCode], map: "uq_schools_code")
+  @@unique([uuid], map: "uq_schools_uuid")
+  @@index([userId], map: "idx_schools_user")
+  @@index([status], map: "idx_schools_status")
+  schoolProfiles SchoolProfile[] @relation("fk_schoolprofile_school")
+  schoolAddresses SchoolAddress[] @relation("fk_schooladdr_school")
+  branches Branch[] @relation("fk_branches_school")
+  schoolDocuments SchoolDocument[] @relation("fk_schooldocs_school")
+  dealerRatings DealerRating[] @relation("fk_dealerratings_school")
+  certificates Certificate[] @relation("fk_certificates_school")
+  uniformDesigns UniformDesign[] @relation("fk_uniform_school")
+  idCards IdCard[] @relation("fk_idcards_school")
+  printingServices PrintingService[] @relation("fk_printing_school")
+  websiteServices WebsiteService[] @relation("fk_website_school")
+  shoppingCarts ShoppingCart[] @relation("fk_carts_school")
+  wishlists Wishlist[] @relation("fk_wishlists_school")
+  recentlyViewed RecentlyViewed[] @relation("fk_recentview_school")
+  customizationRequests CustomizationRequest[] @relation("fk_customreq_school")
+  orders Order[] @relation("fk_orders_school")
+  invoices Invoice[] @relation("fk_invoices_school")
+  quotationRequests QuotationRequest[] @relation("fk_quotreq_school")
+  quotationComparisons QuotationComparison[] @relation("fk_quotcompare_school")
+  paymentMethods PaymentMethod[] @relation("fk_paymethods_school")
+  payments Payment[] @relation("fk_payments_school")
+  wallets Wallet[] @relation("fk_wallets_school")
+  rewardPoints RewardPoint[] @relation("fk_rewardpoints_school")
+  couponUsage CouponUsage[] @relation("fk_couponusage_school")
+  subscriptions Subscription[] @relation("fk_subs_school")
+  successStories SuccessStory[] @relation("fk_successstories_school")
+  eventRegistrations EventRegistration[] @relation("fk_eventreg_school")
+  supportTickets SupportTicket[] @relation("fk_tickets_school")
+  schoolSettings SchoolSetting[] @relation("fk_schoolsettings_school")
+  @@map("schools")
+}
+
+model SchoolProfile {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  establishedYear String? @map("established_year")
+  websiteUrl String? @map("website_url") @db.VarChar(255)
+  contactEmail String? @map("contact_email") @db.VarChar(190)
+  contactPhone String? @map("contact_phone") @db.VarChar(20)
+  altPhone String? @map("alt_phone") @db.VarChar(20)
+  about String? @db.Text
+  studentCount Int? @map("student_count") @db.UnsignedInt
+  teacherCount Int? @map("teacher_count") @db.UnsignedInt
+  branchCount Int @map("branch_count") @db.UnsignedInt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_schoolprofile_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([schoolId], map: "uq_school_profile_school")
+  @@map("school_profiles")
+}
+
+model SchoolAddress {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  addressType SchoolAddressAddressType @map("address_type")
+  addressLine1 String @map("address_line1") @db.VarChar(255)
+  addressLine2 String? @map("address_line2") @db.VarChar(255)
+  city String @db.VarChar(100)
+  state String @db.VarChar(100)
+  country String @db.VarChar(100)
+  pincode String @db.VarChar(12)
+  latitude Decimal? @db.Decimal(10, 7)
+  longitude Decimal? @db.Decimal(10, 7)
+  isDefault Boolean @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_schooladdr_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_school_addr_school")
+  @@index([pincode], map: "idx_school_addr_pincode")
+  branches Branch[] @relation("fk_branches_address")
+  orders_fk_orders_billaddr Order[] @relation("fk_orders_billaddr")
+  orders_fk_orders_shipaddr Order[] @relation("fk_orders_shipaddr")
+  @@map("school_addresses")
+}
+
+model Branch {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  branchName String @map("branch_name") @db.VarChar(150)
+  branchCode String @map("branch_code") @db.VarChar(30)
+  addressId BigInt? @map("address_id") @db.UnsignedBigInt
+  contactPhone String? @map("contact_phone") @db.VarChar(20)
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  school School @relation("fk_branches_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  schoolAddress SchoolAddress? @relation("fk_branches_address", fields: [addressId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([schoolId, branchCode], map: "uq_branch_code")
+  @@index([schoolId], map: "idx_branches_school")
+  @@map("branches")
+}
+
+model SchoolDocument {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  documentType SchoolDocumentDocumentType @map("document_type")
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_schooldocument_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  verified Boolean
+  verifiedAt DateTime? @map("verified_at")
+  verifiedBy BigInt? @map("verified_by") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  school School @relation("fk_schooldocs_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_schooldocs_verifier", fields: [verifiedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_schooldocs_school")
+  @@map("school_documents")
+}
+
+model Dealer {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  businessName String @map("business_name") @db.VarChar(200)
+  dealerCode String @map("dealer_code") @db.VarChar(30)
+  gstin String? @db.VarChar(15)
+  panNumber String? @map("pan_number") @db.VarChar(10)
+  businessType DealerBusinessType @map("business_type")
+  status DealerStatus
+  commissionRate Decimal @map("commission_rate") @db.Decimal(5, 2)
+  averageRating Decimal @map("average_rating") @db.Decimal(3, 2)
+  logoFileId BigInt? @map("logo_file_id") @db.UnsignedBigInt
+  logoFile UploadedFile? @relation("fk_dealer_logofileid", fields: [logoFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  user User @relation("fk_dealers_user", fields: [userId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  @@unique([dealerCode], map: "uq_dealers_code")
+  @@unique([uuid], map: "uq_dealers_uuid")
+  @@index([userId], map: "idx_dealers_user")
+  @@index([status], map: "idx_dealers_status")
+  dealerAddresses DealerAddress[] @relation("fk_dealeraddr_dealer")
+  dealerProducts DealerProduct[] @relation("fk_dealerprod_dealer")
+  dealerRatings DealerRating[] @relation("fk_dealerratings_dealer")
+  dealerDocuments DealerDocument[] @relation("fk_dealerdocs_dealer")
+  dealerAvailability DealerAvailability[] @relation("fk_dealeravail_dealer")
+  inventory Inventory[] @relation("fk_inventory_dealer")
+  cartItems CartItem[] @relation("fk_cartitems_dealer")
+  orders Order[] @relation("fk_orders_dealer")
+  dealerQuotations DealerQuotation[] @relation("fk_dealerquot_dealer")
+  supportTickets SupportTicket[] @relation("fk_tickets_dealer")
+  dealerSettings DealerSetting[] @relation("fk_dealersettings_dealer")
+  whatsappConversation WhatsappConversation? @relation("fk_whatsappconv_dealer")
+  @@map("dealers")
+}
+
+model DealerAddress {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  addressType DealerAddressAddressType @map("address_type")
+  addressLine1 String @map("address_line1") @db.VarChar(255)
+  addressLine2 String? @map("address_line2") @db.VarChar(255)
+  city String @db.VarChar(100)
+  state String @db.VarChar(100)
+  country String @db.VarChar(100)
+  pincode String @db.VarChar(12)
+  latitude Decimal? @db.Decimal(10, 7)
+  longitude Decimal? @db.Decimal(10, 7)
+  isDefault Boolean @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+  dealer Dealer @relation("fk_dealeraddr_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([dealerId], map: "idx_dealer_addr_dealer")
+  @@index([pincode], map: "idx_dealer_addr_pincode")
+  @@map("dealer_addresses")
+}
+
+model DealerProduct {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  dealerSku String? @map("dealer_sku") @db.VarChar(60)
+  dealerPrice Decimal @map("dealer_price") @db.Decimal(12, 2)
+  stockQty Int @map("stock_qty") @db.UnsignedInt
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  dealer Dealer @relation("fk_dealerprod_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product @relation("fk_dealerprod_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([dealerId, productId], map: "uq_dealer_product")
+  @@index([productId], map: "idx_dealerprod_product")
+  @@map("dealer_products")
+}
+
+model DealerRating {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  orderId BigInt? @map("order_id") @db.UnsignedBigInt
+  rating Int @db.UnsignedTinyInt
+  createdAt DateTime @default(now()) @map("created_at")
+  dealer Dealer @relation("fk_dealerratings_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_dealerratings_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([dealerId, schoolId, orderId], map: "uq_dealerrating_school_order")
+  @@index([dealerId], map: "idx_dealerratings_dealer")
+  dealerReviews DealerReview[] @relation("fk_dealerreviews_rating")
+  @@map("dealer_ratings")
+}
+
+model DealerReview {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerRatingId BigInt @map("dealer_rating_id") @db.UnsignedBigInt
+  reviewText String @map("review_text") @db.Text
+  isVisible Boolean @map("is_visible")
+  createdAt DateTime @default(now()) @map("created_at")
+  dealerRating DealerRating @relation("fk_dealerreviews_rating", fields: [dealerRatingId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([dealerRatingId], map: "uq_dealerreview_rating")
+  @@map("dealer_reviews")
+}
+
+model DealerDocument {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  documentType DealerDocumentDocumentType @map("document_type")
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_dealerdocument_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  verified Boolean
+  verifiedAt DateTime? @map("verified_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  dealer Dealer @relation("fk_dealerdocs_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([dealerId], map: "idx_dealerdocs_dealer")
+  @@map("dealer_documents")
+}
+
+model DealerAvailability {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  dayOfWeek Int @map("day_of_week") @db.UnsignedTinyInt
+  opensAt String? @map("opens_at")
+  closesAt String? @map("closes_at")
+  isClosed Boolean @map("is_closed")
+  dealer Dealer @relation("fk_dealeravail_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([dealerId, dayOfWeek], map: "uq_dealer_availability_day")
+  @@map("dealer_availability")
+}
+
+model Category {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  parentId BigInt? @map("parent_id") @db.UnsignedBigInt
+  name String @db.VarChar(120)
+  slug String @db.VarChar(140)
+  iconFileId BigInt? @map("icon_file_id") @db.UnsignedBigInt
+  iconFile UploadedFile? @relation("fk_category_iconfileid", fields: [iconFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  category Category? @relation("fk_categories_parent", fields: [parentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([slug], map: "uq_categories_slug")
+  @@index([parentId], map: "idx_categories_parent")
+  categories Category[] @relation("fk_categories_parent")
+  products Product[] @relation("fk_products_category")
+  @@map("categories")
+}
+
+model Brand {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  name String @db.VarChar(120)
+  slug String @db.VarChar(140)
+  logoFileId BigInt? @map("logo_file_id") @db.UnsignedBigInt
+  logoFile UploadedFile? @relation("fk_brand_logofileid", fields: [logoFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  @@unique([slug], map: "uq_brands_slug")
+  products Product[] @relation("fk_products_brand")
+  @@map("brands")
+}
+
+model Product {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  sku String @db.VarChar(60)
+  name String @db.VarChar(220)
+  slug String @db.VarChar(250)
+  categoryId BigInt @map("category_id") @db.UnsignedBigInt
+  brandId BigInt? @map("brand_id") @db.UnsignedBigInt
+  shortDescription String? @map("short_description") @db.VarChar(500)
+  description String? @db.MediumText
+  basePrice Decimal @map("base_price") @db.Decimal(12, 2)
+  mrp Decimal? @db.Decimal(12, 2)
+  taxId BigInt? @map("tax_id") @db.UnsignedBigInt
+  minOrderQty Int @map("min_order_qty") @db.UnsignedInt
+  weightKg Decimal? @map("weight_kg") @db.Decimal(8, 3)
+  status ProductStatus
+  isFeatured Boolean @map("is_featured")
+  isCustomizable Boolean @map("is_customizable")
+  avgRating Decimal @map("avg_rating") @db.Decimal(3, 2)
+  createdBy BigInt? @map("created_by") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  category Category @relation("fk_products_category", fields: [categoryId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  brand Brand? @relation("fk_products_brand", fields: [brandId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  user User? @relation("fk_products_creator", fields: [createdBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([sku], map: "uq_products_sku")
+  @@unique([slug], map: "uq_products_slug")
+  @@index([categoryId], map: "idx_products_category")
+  @@index([brandId], map: "idx_products_brand")
+  @@index([status], map: "idx_products_status")
+  dealerProducts DealerProduct[] @relation("fk_dealerprod_product")
+  productImages ProductImage[] @relation("fk_prodimg_product")
+  productVideos ProductVideo[] @relation("fk_prodvid_product")
+  specifications Specification[] @relation("fk_specs_product")
+  productVariants ProductVariant[] @relation("fk_variants_product")
+  inventory Inventory[] @relation("fk_inventory_product")
+  priceHistory PriceHistory[] @relation("fk_pricehist_product")
+  productTags ProductTag[] @relation("fk_prodtags_product")
+  collectionProducts CollectionProduct[] @relation("fk_collprod_product")
+  kitProducts KitProduct[] @relation("fk_kitprod_product")
+  cartItems CartItem[] @relation("fk_cartitems_product")
+  wishlistItems WishlistItem[] @relation("fk_wishlistitems_product")
+  recentlyViewed RecentlyViewed[] @relation("fk_recentview_product")
+  customizationRequests CustomizationRequest[] @relation("fk_customreq_product")
+  orderItems OrderItem[] @relation("fk_orderitems_product")
+  quotationRequestProducts QuotationRequestProduct[] @relation("fk_quotreqprod_product")
+  @@map("products")
+}
+
+model ProductImage {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_productimage_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  altText String? @map("alt_text") @db.VarChar(150)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  isPrimary Boolean @map("is_primary")
+  createdAt DateTime @default(now()) @map("created_at")
+  product Product @relation("fk_prodimg_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([productId], map: "idx_prodimg_product")
+  @@map("product_images")
+}
+
+model ProductVideo {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_productvideo_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  videoUrl String? @map("video_url") @db.VarChar(500)
+  title String? @db.VarChar(150)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  createdAt DateTime @default(now()) @map("created_at")
+  product Product @relation("fk_prodvid_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([productId], map: "idx_prodvid_product")
+  @@map("product_videos")
+}
+
+model Specification {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  specName String @map("spec_name") @db.VarChar(100)
+  specValue String @map("spec_value") @db.VarChar(255)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  product Product @relation("fk_specs_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([productId], map: "idx_specs_product")
+  @@map("specifications")
+}
+
+model Attribute {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  name String @db.VarChar(100)
+  inputType AttributeInputType @map("input_type")
+  @@unique([name], map: "uq_attributes_name")
+  attributeValues AttributeValue[] @relation("fk_attrval_attribute")
+  @@map("attributes")
+}
+
+model AttributeValue {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  attributeId BigInt @map("attribute_id") @db.UnsignedBigInt
+  value String @db.VarChar(150)
+  attribute Attribute @relation("fk_attrval_attribute", fields: [attributeId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([attributeId, value], map: "uq_attrval")
+  productVariantAttributes ProductVariantAttribute[] @relation("fk_pva_attrvalue")
+  @@map("attribute_values")
+}
+
+model ProductVariant {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  variantSku String @map("variant_sku") @db.VarChar(60)
+  attributeSummary String? @map("attribute_summary") @db.VarChar(255)
+  priceDelta Decimal @map("price_delta") @db.Decimal(12, 2)
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  product Product @relation("fk_variants_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([variantSku], map: "uq_variant_sku")
+  @@index([productId], map: "idx_variants_product")
+  productVariantAttributes ProductVariantAttribute[] @relation("fk_pva_variant")
+  inventory Inventory[] @relation("fk_inventory_variant")
+  priceHistory PriceHistory[] @relation("fk_pricehist_variant")
+  cartItems CartItem[] @relation("fk_cartitems_variant")
+  orderItems OrderItem[] @relation("fk_orderitems_variant")
+  @@map("product_variants")
+}
+
+model ProductVariantAttribute {
+  variantId BigInt @map("variant_id") @db.UnsignedBigInt
+  attributeValueId BigInt @map("attribute_value_id") @db.UnsignedBigInt
+  @@id([variantId, attributeValueId])
+  productVariant ProductVariant @relation("fk_pva_variant", fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  attributeValue AttributeValue @relation("fk_pva_attrvalue", fields: [attributeValueId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("product_variant_attributes")
+}
+
+model Inventory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  variantId BigInt? @map("variant_id") @db.UnsignedBigInt
+  dealerId BigInt? @map("dealer_id") @db.UnsignedBigInt
+  warehouseLocation String? @map("warehouse_location") @db.VarChar(150)
+  quantityAvailable Int @map("quantity_available")
+  quantityReserved Int @map("quantity_reserved")
+  reorderLevel Int @map("reorder_level") @db.UnsignedInt
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  product Product @relation("fk_inventory_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productVariant ProductVariant? @relation("fk_inventory_variant", fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dealer Dealer? @relation("fk_inventory_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([productId, variantId, dealerId], map: "uq_inventory_scope")
+  @@index([dealerId], map: "idx_inventory_dealer")
+  @@map("inventory")
+}
+
+model StockHistory {
+  id BigInt @default(autoincrement()) @db.UnsignedBigInt
+  inventoryId BigInt @map("inventory_id") @db.UnsignedBigInt
+  changeQty Int @map("change_qty")
+  reason StockHistoryReason
+  referenceType String? @map("reference_type") @db.VarChar(60)
+  referenceId BigInt? @map("reference_id") @db.UnsignedBigInt
+  createdBy BigInt? @map("created_by") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  @@id([id, createdAt])
+  @@index([inventoryId, createdAt], map: "idx_stockhist_inventory")
+  @@index([createdBy], map: "idx_stockhist_creator")
+  @@map("stock_history")
+}
+
+model PriceHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  variantId BigInt? @map("variant_id") @db.UnsignedBigInt
+  oldPrice Decimal @map("old_price") @db.Decimal(12, 2)
+  newPrice Decimal @map("new_price") @db.Decimal(12, 2)
+  changedBy BigInt? @map("changed_by") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  product Product @relation("fk_pricehist_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productVariant ProductVariant? @relation("fk_pricehist_variant", fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_pricehist_user", fields: [changedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([productId, createdAt], map: "idx_pricehist_product")
+  @@map("price_history")
+}
+
+model Tag {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  name String @db.VarChar(60)
+  slug String @db.VarChar(70)
+  @@unique([slug], map: "uq_tags_slug")
+  productTags ProductTag[] @relation("fk_prodtags_tag")
+  @@map("tags")
+}
+
+model ProductTag {
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  tagId BigInt @map("tag_id") @db.UnsignedBigInt
+  @@id([productId, tagId])
+  product Product @relation("fk_prodtags_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  tag Tag @relation("fk_prodtags_tag", fields: [tagId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("product_tags")
+}
+
+model Collection {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  name String @db.VarChar(150)
+  slug String @db.VarChar(170)
+  description String? @db.VarChar(500)
+  bannerFileId BigInt? @map("banner_file_id") @db.UnsignedBigInt
+  bannerFile UploadedFile? @relation("fk_collection_bannerfileid", fields: [bannerFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  isActive Boolean @map("is_active")
+  startsAt DateTime? @map("starts_at")
+  endsAt DateTime? @map("ends_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@unique([slug], map: "uq_collections_slug")
+  collectionProducts CollectionProduct[] @relation("fk_collprod_collection")
+  @@map("collections")
+}
+
+model CollectionProduct {
+  collectionId BigInt @map("collection_id") @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  @@id([collectionId, productId])
+  collection Collection @relation("fk_collprod_collection", fields: [collectionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product @relation("fk_collprod_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@map("collection_products")
+}
+
+model KitCategory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  name String @db.VarChar(120)
+  slug String @db.VarChar(140)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  isActive Boolean @map("is_active")
+  @@unique([slug], map: "uq_kitcat_slug")
+  kits Kit[] @relation("fk_kits_category")
+  @@map("kit_categories")
+}
+
+model Kit {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  kitCategoryId BigInt @map("kit_category_id") @db.UnsignedBigInt
+  name String @db.VarChar(200)
+  slug String @db.VarChar(220)
+  ageGroup String? @map("age_group") @db.VarChar(50)
+  description String? @db.MediumText
+  status KitStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  kitCategory KitCategory @relation("fk_kits_category", fields: [kitCategoryId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  @@unique([slug], map: "uq_kits_slug")
+  @@index([kitCategoryId], map: "idx_kits_category")
+  kitProducts KitProduct[] @relation("fk_kitprod_kit")
+  kitPricing KitPricing[] @relation("fk_kitpricing_kit")
+  kitImages KitImage[] @relation("fk_kitimg_kit")
+  cartItems CartItem[] @relation("fk_cartitems_kit")
+  wishlistItems WishlistItem[] @relation("fk_wishlistitems_kit")
+  orderItems OrderItem[] @relation("fk_orderitems_kit")
+  quotationRequestProducts QuotationRequestProduct[] @relation("fk_quotreqprod_kit")
+  @@map("kits")
+}
+
+model KitProduct {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  kitId BigInt @map("kit_id") @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  quantity Int @db.UnsignedInt
+  isOptional Boolean @map("is_optional")
+  kit Kit @relation("fk_kitprod_kit", fields: [kitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product @relation("fk_kitprod_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([kitId, productId], map: "uq_kit_product")
+  @@index([productId], map: "idx_kitprod_product")
+  @@map("kit_products")
+}
+
+model KitPricing {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  kitId BigInt @map("kit_id") @db.UnsignedBigInt
+  minQuantity Int @map("min_quantity") @db.UnsignedInt
+  pricePerUnit Decimal @map("price_per_unit") @db.Decimal(12, 2)
+  effectiveFrom DateTime @map("effective_from") @db.Date
+  effectiveTo DateTime? @map("effective_to") @db.Date
+  kit Kit @relation("fk_kitpricing_kit", fields: [kitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([kitId], map: "idx_kitpricing_kit")
+  @@map("kit_pricing")
+}
+
+model KitImage {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  kitId BigInt @map("kit_id") @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_kitimage_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  isPrimary Boolean @map("is_primary")
+  kit Kit @relation("fk_kitimg_kit", fields: [kitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([kitId], map: "idx_kitimg_kit")
+  @@map("kit_images")
+}
+
+model CurriculumSolution {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  name String @db.VarChar(200)
+  slug String @db.VarChar(220)
+  ageGroup String? @map("age_group") @db.VarChar(50)
+  description String? @db.MediumText
+  status CurriculumSolutionStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  @@unique([slug], map: "uq_curriculum_slug")
+  books Book[] @relation("fk_books_curriculum")
+  worksheets Worksheet[] @relation("fk_worksheets_curriculum")
+  teacherKits TeacherKit[] @relation("fk_teacherkits_curriculum")
+  assessments Assessment[] @relation("fk_assessments_curriculum")
+  @@map("curriculum_solutions")
+}
+
+model Book {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  curriculumId BigInt @map("curriculum_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  author String? @db.VarChar(150)
+  isbn String? @db.VarChar(20)
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_book_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  price Decimal? @db.Decimal(12, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+  curriculumSolution CurriculumSolution @relation("fk_books_curriculum", fields: [curriculumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([curriculumId], map: "idx_books_curriculum")
+  @@map("books")
+}
+
+model Worksheet {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  curriculumId BigInt @map("curriculum_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  subject String? @db.VarChar(100)
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_worksheet_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  curriculumSolution CurriculumSolution @relation("fk_worksheets_curriculum", fields: [curriculumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([curriculumId], map: "idx_worksheets_curriculum")
+  @@map("worksheets")
+}
+
+model TeacherKit {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  curriculumId BigInt @map("curriculum_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  description String? @db.Text
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_teacherkit_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  curriculumSolution CurriculumSolution @relation("fk_teacherkits_curriculum", fields: [curriculumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([curriculumId], map: "idx_teacherkits_curriculum")
+  @@map("teacher_kits")
+}
+
+model Assessment {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  curriculumId BigInt @map("curriculum_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_assessment_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  curriculumSolution CurriculumSolution @relation("fk_assessments_curriculum", fields: [curriculumId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([curriculumId], map: "idx_assessments_curriculum")
+  @@map("assessments")
+}
+
+model Certificate {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  certificateType CertificateCertificateType @map("certificate_type")
+  referenceType String @map("reference_type") @db.VarChar(60)
+  referenceId BigInt @map("reference_id") @db.UnsignedBigInt
+  schoolId BigInt? @map("school_id") @db.UnsignedBigInt
+  userId BigInt? @map("user_id") @db.UnsignedBigInt
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_certificate_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  issuedAt DateTime @default(now()) @map("issued_at")
+  school School? @relation("fk_certificates_school", fields: [schoolId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  user User? @relation("fk_certificates_user", fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_certificates_school")
+  @@map("certificates")
+}
+
+model Download {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_download_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  resourceType String @map("resource_type") @db.VarChar(60)
+  resourceId BigInt @map("resource_id") @db.UnsignedBigInt
+  downloadedAt DateTime @default(now()) @map("downloaded_at")
+  user User @relation("fk_downloads_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([userId, downloadedAt], map: "idx_downloads_user")
+  @@map("downloads")
+}
+
+model BrandingService {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  serviceType BrandingServiceServiceType @map("service_type")
+  name String @db.VarChar(150)
+  description String? @db.Text
+  basePrice Decimal? @map("base_price") @db.Decimal(12, 2)
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  uniformDesigns UniformDesign[] @relation("fk_uniform_service")
+  idCards IdCard[] @relation("fk_idcards_service")
+  printingServices PrintingService[] @relation("fk_printing_service")
+  websiteServices WebsiteService[] @relation("fk_website_service")
+  @@map("branding_services")
+}
+
+model UniformDesign {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  brandingServiceId BigInt @map("branding_service_id") @db.UnsignedBigInt
+  schoolId BigInt? @map("school_id") @db.UnsignedBigInt
+  designName String @map("design_name") @db.VarChar(150)
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_uniformdesign_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  status UniformDesignStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  brandingService BrandingService @relation("fk_uniform_service", fields: [brandingServiceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School? @relation("fk_uniform_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_uniform_school")
+  @@map("uniform_designs")
+}
+
+model IdCard {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  brandingServiceId BigInt @map("branding_service_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  templateFileId BigInt? @map("template_file_id") @db.UnsignedBigInt
+  templateFile UploadedFile? @relation("fk_idcard_templatefileid", fields: [templateFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  quantity Int @db.UnsignedInt
+  status IdCardStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  brandingService BrandingService @relation("fk_idcards_service", fields: [brandingServiceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_idcards_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_idcards_school")
+  @@map("id_cards")
+}
+
+model PrintingService {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  brandingServiceId BigInt @map("branding_service_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  itemDescription String @map("item_description") @db.VarChar(255)
+  quantity Int @db.UnsignedInt
+  status PrintingServiceStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  brandingService BrandingService @relation("fk_printing_service", fields: [brandingServiceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_printing_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_printing_school")
+  @@map("printing_services")
+}
+
+model WebsiteService {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  brandingServiceId BigInt @map("branding_service_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  domainName String? @map("domain_name") @db.VarChar(150)
+  status WebsiteServiceStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  brandingService BrandingService @relation("fk_website_service", fields: [brandingServiceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_website_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_website_school")
+  @@map("website_services")
+}
+
+model BrandingGallery {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  serviceType BrandingGalleryServiceType @map("service_type")
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_brandinggallery_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  caption String? @db.VarChar(200)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  @@map("branding_gallery")
+}
+
+model ShoppingCart {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  status ShoppingCartStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_carts_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId, status], map: "idx_carts_school_status")
+  cartItems CartItem[] @relation("fk_cartitems_cart")
+  @@map("shopping_carts")
+}
+
+model CartItem {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  cartId BigInt @map("cart_id") @db.UnsignedBigInt
+  itemType CartItemItemType @map("item_type")
+  productId BigInt? @map("product_id") @db.UnsignedBigInt
+  variantId BigInt? @map("variant_id") @db.UnsignedBigInt
+  kitId BigInt? @map("kit_id") @db.UnsignedBigInt
+  dealerId BigInt? @map("dealer_id") @db.UnsignedBigInt
+  quantity Int @db.UnsignedInt
+  unitPriceSnapshot Decimal @map("unit_price_snapshot") @db.Decimal(12, 2)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  shoppingCart ShoppingCart @relation("fk_cartitems_cart", fields: [cartId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product? @relation("fk_cartitems_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productVariant ProductVariant? @relation("fk_cartitems_variant", fields: [variantId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  kit Kit? @relation("fk_cartitems_kit", fields: [kitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dealer Dealer? @relation("fk_cartitems_dealer", fields: [dealerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([cartId], map: "idx_cartitems_cart")
+  customizationRequests CustomizationRequest[] @relation("fk_customreq_cartitem")
+  @@map("cart_items")
+}
+
+model Wishlist {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  name String @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at")
+  school School @relation("fk_wishlists_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([schoolId, name], map: "uq_wishlist_school_name")
+  wishlistItems WishlistItem[] @relation("fk_wishlistitems_wishlist")
+  @@map("wishlists")
+}
+
+model WishlistItem {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  wishlistId BigInt @map("wishlist_id") @db.UnsignedBigInt
+  productId BigInt? @map("product_id") @db.UnsignedBigInt
+  kitId BigInt? @map("kit_id") @db.UnsignedBigInt
+  addedAt DateTime @default(now()) @map("added_at")
+  wishlist Wishlist @relation("fk_wishlistitems_wishlist", fields: [wishlistId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product? @relation("fk_wishlistitems_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  kit Kit? @relation("fk_wishlistitems_kit", fields: [kitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([wishlistId, productId, kitId], map: "uq_wishlist_product")
+  @@map("wishlist_items")
+}
+
+model RecentlyViewed {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  viewedAt DateTime @default(now()) @map("viewed_at")
+  school School @relation("fk_recentview_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product @relation("fk_recentview_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([schoolId, productId], map: "uq_recentview")
+  @@index([schoolId, viewedAt], map: "idx_recentview_school_date")
+  @@map("recently_viewed")
+}
+
+model CustomizationRequest {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  productId BigInt @map("product_id") @db.UnsignedBigInt
+  status CustomizationRequestStatus
+  quantity Int @db.UnsignedInt
+  schoolName String? @map("school_name") @db.VarChar(150)
+  customText String? @map("custom_text") @db.VarChar(255)
+  color String? @db.VarChar(60)
+  size String? @db.VarChar(60)
+  material String? @db.VarChar(100)
+  brandingRequirements String? @map("branding_requirements") @db.Text
+  printingRequirements String? @map("printing_requirements") @db.Text
+  specialInstructions String? @map("special_instructions") @db.Text
+  reviewNotes String? @map("review_notes") @db.Text
+  reviewedBy BigInt? @map("reviewed_by") @db.UnsignedBigInt
+  reviewedAt DateTime? @map("reviewed_at")
+  convertedCartItemId BigInt? @map("converted_cart_item_id") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  school School @relation("fk_customreq_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product @relation("fk_customreq_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_customreq_reviewer", fields: [reviewedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  cartItem CartItem? @relation("fk_customreq_cartitem", fields: [convertedCartItemId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([schoolId, status], map: "idx_customreq_school")
+  @@index([productId], map: "idx_customreq_product")
+  customizationFiles CustomizationFile[] @relation("fk_customfiles_request")
+  customizationStatusHistory CustomizationStatusHistory[] @relation("fk_customstatushist_request")
+  @@map("customization_requests")
+}
+
+model CustomizationFile {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  customizationRequestId BigInt @map("customization_request_id") @db.UnsignedBigInt
+  fileType CustomizationFileFileType @map("file_type")
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_customizationfile_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  createdAt DateTime @default(now()) @map("created_at")
+  customizationRequest CustomizationRequest @relation("fk_customfiles_request", fields: [customizationRequestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([customizationRequestId], map: "idx_customfiles_request")
+  @@map("customization_files")
+}
+
+model CustomizationStatusHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  customizationRequestId BigInt @map("customization_request_id") @db.UnsignedBigInt
+  status String @db.VarChar(30)
+  changedBy BigInt? @map("changed_by") @db.UnsignedBigInt
+  note String? @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  customizationRequest CustomizationRequest @relation("fk_customstatushist_request", fields: [customizationRequestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_customstatushist_user", fields: [changedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([customizationRequestId, createdAt], map: "idx_customstatushist_request")
+  @@map("customization_status_history")
+}
+
+model ShippingMethod {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  name String @db.VarChar(60)
+  rate Decimal @db.Decimal(12, 2)
+  estimatedDaysMin Int @map("estimated_days_min") @db.UnsignedSmallInt
+  estimatedDaysMax Int @map("estimated_days_max") @db.UnsignedSmallInt
+  isActive Boolean @map("is_active")
+  @@unique([name], map: "uq_shippingmethods_name")
+  orders Order[] @relation("fk_orders_shipmethod")
+  @@map("shipping_methods")
+}
+
+model Order {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  orderNumber String @map("order_number") @db.VarChar(30)
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  dealerId BigInt? @map("dealer_id") @db.UnsignedBigInt
+  billingAddressId BigInt? @map("billing_address_id") @db.UnsignedBigInt
+  shippingAddressId BigInt? @map("shipping_address_id") @db.UnsignedBigInt
+  shippingMethodId BigInt? @map("shipping_method_id") @db.UnsignedBigInt
+  subtotal Decimal @db.Decimal(12, 2)
+  taxAmount Decimal @map("tax_amount") @db.Decimal(12, 2)
+  discountAmount Decimal @map("discount_amount") @db.Decimal(12, 2)
+  shippingAmount Decimal @map("shipping_amount") @db.Decimal(12, 2)
+  totalAmount Decimal @map("total_amount") @db.Decimal(12, 2)
+  currency String @db.Char(3)
+  status OrderStatus
+  paymentStatus OrderPaymentStatus @map("payment_status")
+  productionDeadline DateTime? @map("production_deadline") @db.Date
+  expectedDeliveryDate DateTime? @map("expected_delivery_date") @db.Date
+  priority OrderPriority
+  placedAt DateTime @default(now()) @map("placed_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+  school School @relation("fk_orders_school", fields: [schoolId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  dealer Dealer? @relation("fk_orders_dealer", fields: [dealerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  schoolAddress SchoolAddress? @relation("fk_orders_billaddr", fields: [billingAddressId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  schoolAddressRef SchoolAddress? @relation("fk_orders_shipaddr", fields: [shippingAddressId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  shippingMethod ShippingMethod? @relation("fk_orders_shipmethod", fields: [shippingMethodId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([orderNumber], map: "uq_orders_number")
+  @@unique([uuid], map: "uq_orders_uuid")
+  @@index([schoolId, status], map: "idx_orders_school")
+  @@index([dealerId, status], map: "idx_orders_dealer")
+  @@index([placedAt], map: "idx_orders_placed")
+  orderItems OrderItem[] @relation("fk_orderitems_order")
+  orderStatusHistory OrderStatusHistory[] @relation("fk_orderstatushist_order")
+  orderTimeline OrderTimeline[] @relation("fk_ordertimeline_order")
+  orderNotes OrderNote[] @relation("fk_ordernotes_order")
+  productionCheckpoints ProductionCheckpoint[] @relation("fk_prodcheckpoint_order")
+  returns Return[] @relation("fk_returns_order")
+  cancellations Cancellation[] @relation("fk_cancellations_order")
+  refunds Refund[] @relation("fk_refunds_order")
+  invoices Invoice[] @relation("fk_invoices_order")
+  shipments Shipment[] @relation("fk_shipments_order")
+  acceptedQuotations AcceptedQuotation[] @relation("fk_acceptedquot_order")
+  payments Payment[] @relation("fk_payments_order")
+  couponUsage CouponUsage[] @relation("fk_couponusage_order")
+  @@map("orders")
+}
+
+model OrderItem {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  itemType OrderItemItemType @map("item_type")
+  productId BigInt? @map("product_id") @db.UnsignedBigInt
+  variantId BigInt? @map("variant_id") @db.UnsignedBigInt
+  kitId BigInt? @map("kit_id") @db.UnsignedBigInt
+  itemNameSnapshot String @map("item_name_snapshot") @db.VarChar(220)
+  quantity Int @db.UnsignedInt
+  unitPrice Decimal @map("unit_price") @db.Decimal(12, 2)
+  taxAmount Decimal @map("tax_amount") @db.Decimal(12, 2)
+  lineTotal Decimal @map("line_total") @db.Decimal(12, 2)
+  order Order @relation("fk_orderitems_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product? @relation("fk_orderitems_product", fields: [productId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  productVariant ProductVariant? @relation("fk_orderitems_variant", fields: [variantId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  kit Kit? @relation("fk_orderitems_kit", fields: [kitId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([orderId], map: "idx_orderitems_order")
+  @@index([productId], map: "idx_orderitems_product")
+  returns Return[] @relation("fk_returns_orderitem")
+  invoiceItems InvoiceItem[] @relation("fk_invoiceitems_orderitem")
+  @@map("order_items")
+}
+
+model OrderStatusHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  status String @db.VarChar(30)
+  changedBy BigInt? @map("changed_by") @db.UnsignedBigInt
+  note String? @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  order Order @relation("fk_orderstatushist_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_orderstatushist_user", fields: [changedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([orderId, createdAt], map: "idx_orderstatushist_order")
+  @@map("order_status_history")
+}
+
+model OrderTimeline {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  eventType String @map("event_type") @db.VarChar(60)
+  eventDescription String? @map("event_description") @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  order Order @relation("fk_ordertimeline_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([orderId, createdAt], map: "idx_ordertimeline_order")
+  @@map("order_timeline")
+}
+
+model OrderNote {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  authorId BigInt? @map("author_id") @db.UnsignedBigInt
+  note String @db.Text
+  isInternal Boolean @map("is_internal")
+  createdAt DateTime @default(now()) @map("created_at")
+  order Order @relation("fk_ordernotes_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_ordernotes_author", fields: [authorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([orderId], map: "idx_ordernotes_order")
+  @@map("order_notes")
+}
+
+enum ProductionCheckpointUpdatedByType {
+  dealer
+  admin
+  system
+}
+
+model ProductionCheckpoint {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  stage ProductionCheckpointStage
+  completionPercentage Int @map("completion_percentage") @db.UnsignedTinyInt
+  notes String? @db.Text
+  updatedBy BigInt? @map("updated_by") @db.UnsignedBigInt
+  updatedByType ProductionCheckpointUpdatedByType @default(system) @map("updated_by_type")
+  overrideReason String? @map("override_reason") @db.VarChar(500)
+  createdAt DateTime @default(now()) @map("created_at")
+  order Order @relation("fk_prodcheckpoint_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_prodcheckpoint_user", fields: [updatedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([orderId, createdAt], map: "idx_prodcheckpoint_order")
+  productionCheckpointImages ProductionCheckpointImage[] @relation("fk_prodcheckpointimg_checkpoint")
+  @@map("production_checkpoints")
+}
+
+model ProductionCheckpointImage {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  productionCheckpointId BigInt @map("production_checkpoint_id") @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_productioncheckpointimage_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  productionCheckpoint ProductionCheckpoint @relation("fk_prodcheckpointimg_checkpoint", fields: [productionCheckpointId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([productionCheckpointId], map: "idx_prodcheckpointimg_checkpoint")
+  @@map("production_checkpoint_images")
+}
+
+model Return {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  orderItemId BigInt @map("order_item_id") @db.UnsignedBigInt
+  quantity Int @db.UnsignedInt
+  reason String @db.VarChar(255)
+  status ReturnStatus
+  requestedAt DateTime @default(now()) @map("requested_at")
+  resolvedAt DateTime? @map("resolved_at")
+  order Order @relation("fk_returns_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  orderItem OrderItem @relation("fk_returns_orderitem", fields: [orderItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([orderId], map: "idx_returns_order")
+  refunds Refund[] @relation("fk_refunds_return")
+  @@map("returns")
+}
+
+model Cancellation {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  cancelledBy BigInt? @map("cancelled_by") @db.UnsignedBigInt
+  reason String @db.VarChar(255)
+  cancelledAt DateTime @default(now()) @map("cancelled_at")
+  order Order @relation("fk_cancellations_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_cancellations_user", fields: [cancelledBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([orderId], map: "uq_cancellations_order")
+  @@map("cancellations")
+}
+
+model Refund {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  returnId BigInt? @map("return_id") @db.UnsignedBigInt
+  amount Decimal @db.Decimal(12, 2)
+  refundMethod RefundRefundMethod @map("refund_method")
+  status RefundStatus
+  processedAt DateTime? @map("processed_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  order Order @relation("fk_refunds_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  return Return? @relation("fk_refunds_return", fields: [returnId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([orderId], map: "idx_refunds_order")
+  @@map("refunds")
+}
+
+model Invoice {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  invoiceNumber String @map("invoice_number") @db.VarChar(30)
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  subtotal Decimal @db.Decimal(12, 2)
+  taxAmount Decimal @map("tax_amount") @db.Decimal(12, 2)
+  totalAmount Decimal @map("total_amount") @db.Decimal(12, 2)
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_invoice_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  invoiceType InvoiceInvoiceType @map("invoice_type")
+  issuedAt DateTime @default(now()) @map("issued_at")
+  dueDate DateTime? @map("due_date") @db.Date
+  status InvoiceStatus
+  order Order @relation("fk_invoices_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_invoices_school", fields: [schoolId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  @@unique([invoiceNumber], map: "uq_invoices_number")
+  @@index([orderId], map: "idx_invoices_order")
+  @@index([schoolId], map: "idx_invoices_school")
+  invoiceItems InvoiceItem[] @relation("fk_invoiceitems_invoice")
+  @@map("invoices")
+}
+
+model InvoiceItem {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  invoiceId BigInt @map("invoice_id") @db.UnsignedBigInt
+  orderItemId BigInt @map("order_item_id") @db.UnsignedBigInt
+  description String @db.VarChar(255)
+  quantity Int @db.UnsignedInt
+  unitPrice Decimal @map("unit_price") @db.Decimal(12, 2)
+  taxRate Decimal @map("tax_rate") @db.Decimal(5, 2)
+  lineTotal Decimal @map("line_total") @db.Decimal(12, 2)
+  invoice Invoice @relation("fk_invoiceitems_invoice", fields: [invoiceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  orderItem OrderItem @relation("fk_invoiceitems_orderitem", fields: [orderItemId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([invoiceId], map: "idx_invoiceitems_invoice")
+  @@map("invoice_items")
+}
+
+model Shipment {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  carrierName String? @map("carrier_name") @db.VarChar(100)
+  trackingNumber String? @map("tracking_number") @db.VarChar(100)
+  status ShipmentStatus
+  shippedAt DateTime? @map("shipped_at")
+  deliveredAt DateTime? @map("delivered_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  order Order @relation("fk_shipments_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([orderId], map: "idx_shipments_order")
+  @@index([trackingNumber], map: "idx_shipments_tracking")
+  tracking Tracking[] @relation("fk_tracking_shipment")
+  deliveryUpdates DeliveryUpdate[] @relation("fk_deliveryupdates_shipment")
+  @@map("shipments")
+}
+
+model Tracking {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  shipmentId BigInt @map("shipment_id") @db.UnsignedBigInt
+  location String? @db.VarChar(200)
+  statusText String @map("status_text") @db.VarChar(255)
+  recordedAt DateTime @default(now()) @map("recorded_at")
+  shipment Shipment @relation("fk_tracking_shipment", fields: [shipmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([shipmentId, recordedAt], map: "idx_tracking_shipment")
+  @@map("tracking")
+}
+
+model DeliveryUpdate {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  shipmentId BigInt @map("shipment_id") @db.UnsignedBigInt
+  updateType DeliveryUpdateUpdateType @map("update_type")
+  message String? @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  shipment Shipment @relation("fk_deliveryupdates_shipment", fields: [shipmentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([shipmentId], map: "idx_deliveryupdates_shipment")
+  @@map("delivery_updates")
+}
+
+model QuotationRequest {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  requestNumber String @map("request_number") @db.VarChar(30)
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  title String? @db.VarChar(200)
+  notes String? @db.Text
+  status QuotationRequestStatus
+  expiresAt DateTime? @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_quotreq_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([requestNumber], map: "uq_quotreq_number")
+  @@index([schoolId, status], map: "idx_quotreq_school")
+  quotationRequestProducts QuotationRequestProduct[] @relation("fk_quotreqprod_request")
+  dealerQuotations DealerQuotation[] @relation("fk_dealerquot_request")
+  quotationComparisons QuotationComparison[] @relation("fk_quotcompare_request")
+  @@map("quotation_requests")
+}
+
+model QuotationRequestProduct {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  quotationRequestId BigInt @map("quotation_request_id") @db.UnsignedBigInt
+  productId BigInt? @map("product_id") @db.UnsignedBigInt
+  kitId BigInt? @map("kit_id") @db.UnsignedBigInt
+  customItemDescription String? @map("custom_item_description") @db.VarChar(255)
+  quantity Int @db.UnsignedInt
+  quotationRequest QuotationRequest @relation("fk_quotreqprod_request", fields: [quotationRequestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product? @relation("fk_quotreqprod_product", fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  kit Kit? @relation("fk_quotreqprod_kit", fields: [kitId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([quotationRequestId], map: "idx_quotreqprod_request")
+  dealerQuotationItems DealerQuotationItem[] @relation("fk_dealerquotitems_reqprod")
+  @@map("quotation_request_products")
+}
+
+model DealerQuotation {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  quotationRequestId BigInt @map("quotation_request_id") @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  totalAmount Decimal @map("total_amount") @db.Decimal(12, 2)
+  validityDays Int @map("validity_days") @db.UnsignedSmallInt
+  notes String? @db.Text
+  assignedBy BigInt? @map("assigned_by") @db.UnsignedBigInt
+  assignedAt DateTime? @map("assigned_at")
+  expectedCompletionDate DateTime? @map("expected_completion_date") @db.Date
+  status DealerQuotationStatus
+  submittedAt DateTime @default(now()) @map("submitted_at")
+  quotationRequest QuotationRequest @relation("fk_dealerquot_request", fields: [quotationRequestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dealer Dealer @relation("fk_dealerquot_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_dealerquot_assignedby", fields: [assignedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([quotationRequestId, dealerId], map: "uq_dealerquot_request_dealer")
+  @@index([dealerId], map: "idx_dealerquot_dealer")
+  dealerQuotationItems DealerQuotationItem[] @relation("fk_dealerquotitems_quot")
+  quotationStatusHistory QuotationStatusHistory[] @relation("fk_quotstatushist_quot")
+  acceptedQuotations AcceptedQuotation[] @relation("fk_acceptedquot_quot")
+  @@map("dealer_quotations")
+}
+
+model DealerQuotationItem {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerQuotationId BigInt @map("dealer_quotation_id") @db.UnsignedBigInt
+  quotationRequestProductId BigInt @map("quotation_request_product_id") @db.UnsignedBigInt
+  quotedUnitPrice Decimal @map("quoted_unit_price") @db.Decimal(12, 2)
+  quotedQuantity Int @map("quoted_quantity") @db.UnsignedInt
+  dealerQuotation DealerQuotation @relation("fk_dealerquotitems_quot", fields: [dealerQuotationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  quotationRequestProduct QuotationRequestProduct @relation("fk_dealerquotitems_reqprod", fields: [quotationRequestProductId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([quotationRequestProductId], map: "uq_dealerquotitems_reqprod")
+  @@index([dealerQuotationId], map: "idx_dealerquotitems_quot")
+  @@map("dealer_quotation_items")
+}
+
+model QuotationComparison {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  quotationRequestId BigInt @map("quotation_request_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  comparedDealerQuotationIds Json @map("compared_dealer_quotation_ids")
+  createdAt DateTime @default(now()) @map("created_at")
+  quotationRequest QuotationRequest @relation("fk_quotcompare_request", fields: [quotationRequestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_quotcompare_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([quotationRequestId], map: "idx_quotcompare_request")
+  @@map("quotation_comparisons")
+}
+
+model QuotationStatusHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerQuotationId BigInt @map("dealer_quotation_id") @db.UnsignedBigInt
+  status String @db.VarChar(30)
+  changedBy BigInt? @map("changed_by") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  dealerQuotation DealerQuotation @relation("fk_quotstatushist_quot", fields: [dealerQuotationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User? @relation("fk_quotstatushist_user", fields: [changedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([dealerQuotationId], map: "idx_quotstatushist_quot")
+  @@map("quotation_status_history")
+}
+
+model AcceptedQuotation {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerQuotationId BigInt @map("dealer_quotation_id") @db.UnsignedBigInt
+  orderId BigInt? @map("order_id") @db.UnsignedBigInt
+  acceptedAt DateTime @default(now()) @map("accepted_at")
+  dealerQuotation DealerQuotation @relation("fk_acceptedquot_quot", fields: [dealerQuotationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  order Order? @relation("fk_acceptedquot_order", fields: [orderId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([dealerQuotationId], map: "uq_acceptedquot_quot")
+  @@map("accepted_quotations")
+}
+
+model PaymentMethod {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  methodType PaymentMethodMethodType @map("method_type")
+  providerToken String? @map("provider_token") @db.VarChar(255)
+  displayLabel String? @map("display_label") @db.VarChar(100)
+  isDefault Boolean @map("is_default")
+  createdAt DateTime @default(now()) @map("created_at")
+  school School @relation("fk_paymethods_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([schoolId], map: "idx_paymethods_school")
+  payments Payment[] @relation("fk_payments_method")
+  @@map("payment_methods")
+}
+
+model Payment {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  orderId BigInt? @map("order_id") @db.UnsignedBigInt
+  subscriptionId BigInt? @map("subscription_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  paymentMethodId BigInt? @map("payment_method_id") @db.UnsignedBigInt
+  amount Decimal @db.Decimal(12, 2)
+  currency String @db.Char(3)
+  paymentType PaymentPaymentType @map("payment_type")
+  status PaymentStatus
+  gateway String? @db.VarChar(50)
+  gatewayReference String? @map("gateway_reference") @db.VarChar(150)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  order Order? @relation("fk_payments_order", fields: [orderId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  school School @relation("fk_payments_school", fields: [schoolId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  paymentMethod PaymentMethod? @relation("fk_payments_method", fields: [paymentMethodId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([orderId], map: "idx_payments_order")
+  @@index([schoolId], map: "idx_payments_school")
+  @@index([gatewayReference], map: "idx_payments_gatewayref")
+  paymentTransactions PaymentTransaction[] @relation("fk_paytxn_payment")
+  subscriptionPayments SubscriptionPayment[] @relation("fk_subpay_payment")
+  @@map("payments")
+}
+
+model PaymentTransaction {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  paymentId BigInt @map("payment_id") @db.UnsignedBigInt
+  transactionType PaymentTransactionTransactionType @map("transaction_type")
+  amount Decimal @db.Decimal(12, 2)
+  status PaymentTransactionStatus
+  gatewayResponse Json? @map("gateway_response")
+  createdAt DateTime @default(now()) @map("created_at")
+  payment Payment @relation("fk_paytxn_payment", fields: [paymentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([paymentId], map: "idx_paytxn_payment")
+  @@map("payment_transactions")
+}
+
+model Wallet {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  balance Decimal @db.Decimal(12, 2)
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_wallets_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([schoolId], map: "uq_wallets_school")
+  walletHistory WalletHistory[] @relation("fk_wallethist_wallet")
+  @@map("wallets")
+}
+
+model WalletHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  walletId BigInt @map("wallet_id") @db.UnsignedBigInt
+  changeAmount Decimal @map("change_amount") @db.Decimal(12, 2)
+  balanceAfter Decimal @map("balance_after") @db.Decimal(12, 2)
+  reason String @db.VarChar(150)
+  referenceType String? @map("reference_type") @db.VarChar(60)
+  referenceId BigInt? @map("reference_id") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  wallet Wallet @relation("fk_wallethist_wallet", fields: [walletId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([walletId, createdAt], map: "idx_wallethist_wallet")
+  @@map("wallet_history")
+}
+
+model RewardPoint {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  pointsBalance Int @map("points_balance") @db.UnsignedInt
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_rewardpoints_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([schoolId], map: "uq_rewardpoints_school")
+  rewardHistory RewardHistory[] @relation("fk_rewardhist_points")
+  @@map("reward_points")
+}
+
+model RewardHistory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  rewardPointsId BigInt @map("reward_points_id") @db.UnsignedBigInt
+  pointsChange Int @map("points_change")
+  reason String @db.VarChar(150)
+  referenceType String? @map("reference_type") @db.VarChar(60)
+  referenceId BigInt? @map("reference_id") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  rewardPoint RewardPoint @relation("fk_rewardhist_points", fields: [rewardPointsId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([rewardPointsId, createdAt], map: "idx_rewardhist_points")
+  @@map("reward_history")
+}
+
+model Coupon {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  code String @db.VarChar(40)
+  discountType CouponDiscountType @map("discount_type")
+  discountValue Decimal @map("discount_value") @db.Decimal(10, 2)
+  maxDiscount Decimal? @map("max_discount") @db.Decimal(12, 2)
+  minOrderValue Decimal @map("min_order_value") @db.Decimal(12, 2)
+  usageLimitTotal Int? @map("usage_limit_total") @db.UnsignedInt
+  usageLimitPerSchool Int @map("usage_limit_per_school") @db.UnsignedSmallInt
+  startsAt DateTime @map("starts_at")
+  endsAt DateTime @map("ends_at")
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@unique([code], map: "uq_coupons_code")
+  couponUsage CouponUsage[] @relation("fk_couponusage_coupon")
+  @@map("coupons")
+}
+
+model CouponUsage {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  couponId BigInt @map("coupon_id") @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  orderId BigInt @map("order_id") @db.UnsignedBigInt
+  discountApplied Decimal @map("discount_applied") @db.Decimal(12, 2)
+  usedAt DateTime @default(now()) @map("used_at")
+  coupon Coupon @relation("fk_couponusage_coupon", fields: [couponId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School @relation("fk_couponusage_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  order Order @relation("fk_couponusage_order", fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([couponId, orderId], map: "uq_couponusage_order")
+  @@index([schoolId], map: "idx_couponusage_school")
+  @@map("coupon_usage")
+}
+
+model Tax {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  name String @db.VarChar(60)
+  taxType TaxTaxType @map("tax_type")
+  rate Decimal @db.Decimal(5, 2)
+  hsnCode String? @map("hsn_code") @db.VarChar(20)
+  isActive Boolean @map("is_active")
+  @@unique([name], map: "uq_taxes_name")
+  @@map("taxes")
+}
+
+model Plan {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  name String @db.VarChar(100)
+  slug String @db.VarChar(120)
+  billingCycle PlanBillingCycle @map("billing_cycle")
+  price Decimal @db.Decimal(12, 2)
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@unique([slug], map: "uq_plans_slug")
+  planFeatures PlanFeature[] @relation("fk_planfeatures_plan")
+  subscriptions Subscription[] @relation("fk_subs_plan")
+  @@map("plans")
+}
+
+model PlanFeature {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  planId BigInt @map("plan_id") @db.UnsignedBigInt
+  featureName String @map("feature_name") @db.VarChar(150)
+  featureValue String? @map("feature_value") @db.VarChar(150)
+  plan Plan @relation("fk_planfeatures_plan", fields: [planId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([planId], map: "idx_planfeatures_plan")
+  @@map("plan_features")
+}
+
+model Subscription {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  planId BigInt @map("plan_id") @db.UnsignedBigInt
+  status SubscriptionStatus
+  startsAt DateTime @map("starts_at")
+  endsAt DateTime @map("ends_at")
+  autoRenew Boolean @map("auto_renew")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  school School @relation("fk_subs_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  plan Plan @relation("fk_subs_plan", fields: [planId], references: [id], onDelete: Restrict, onUpdate: Cascade)
+  @@index([schoolId, status], map: "idx_subs_school")
+  subscriptionPayments SubscriptionPayment[] @relation("fk_subpay_sub")
+  renewals Renewal[] @relation("fk_renewals_sub")
+  @@map("subscriptions")
+}
+
+model SubscriptionPayment {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  subscriptionId BigInt @map("subscription_id") @db.UnsignedBigInt
+  paymentId BigInt? @map("payment_id") @db.UnsignedBigInt
+  amount Decimal @db.Decimal(12, 2)
+  billingPeriodStart DateTime @map("billing_period_start") @db.Date
+  billingPeriodEnd DateTime @map("billing_period_end") @db.Date
+  createdAt DateTime @default(now()) @map("created_at")
+  subscription Subscription @relation("fk_subpay_sub", fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  payment Payment? @relation("fk_subpay_payment", fields: [paymentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([subscriptionId], map: "idx_subpay_sub")
+  @@map("subscription_payments")
+}
+
+model Renewal {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  subscriptionId BigInt @map("subscription_id") @db.UnsignedBigInt
+  previousEndDate DateTime @map("previous_end_date") @db.Date
+  newEndDate DateTime @map("new_end_date") @db.Date
+  renewedAt DateTime @default(now()) @map("renewed_at")
+  subscription Subscription @relation("fk_renewals_sub", fields: [subscriptionId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([subscriptionId], map: "idx_renewals_sub")
+  @@map("renewals")
+}
+
+model LearningCategory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  name String @db.VarChar(100)
+  slug String @db.VarChar(120)
+  @@unique([slug], map: "uq_learncat_slug")
+  blogs Blog[] @relation("fk_blogs_category")
+  learningVideos LearningVideo[] @relation("fk_learnvideos_category")
+  learningDownloads LearningDownload[] @relation("fk_learndownloads_category")
+  resources Resource[] @relation("fk_resources_category")
+  @@map("learning_categories")
+}
+
+model Blog {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  categoryId BigInt? @map("category_id") @db.UnsignedBigInt
+  authorId BigInt? @map("author_id") @db.UnsignedBigInt
+  title String @db.VarChar(220)
+  slug String @db.VarChar(250)
+  excerpt String? @db.VarChar(500)
+  content String @db.MediumText
+  coverFileId BigInt? @map("cover_file_id") @db.UnsignedBigInt
+  coverFile UploadedFile? @relation("fk_blog_coverfileid", fields: [coverFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  status BlogStatus
+  publishedAt DateTime? @map("published_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  learningCategory LearningCategory? @relation("fk_blogs_category", fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  user User? @relation("fk_blogs_author", fields: [authorId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([slug], map: "uq_blogs_slug")
+  @@index([categoryId], map: "idx_blogs_category")
+  @@map("blogs")
+}
+
+model LearningVideo {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  categoryId BigInt? @map("category_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  videoUrl String @map("video_url") @db.VarChar(500)
+  thumbnailFileId BigInt? @map("thumbnail_file_id") @db.UnsignedBigInt
+  thumbnailFile UploadedFile? @relation("fk_learningvideo_thumbnailfileid", fields: [thumbnailFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  durationSeconds Int? @map("duration_seconds") @db.UnsignedInt
+  createdAt DateTime @default(now()) @map("created_at")
+  learningCategory LearningCategory? @relation("fk_learnvideos_category", fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([categoryId], map: "idx_learnvideos_category")
+  @@map("learning_videos")
+}
+
+model LearningDownload {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  categoryId BigInt? @map("category_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile @relation("fk_learningdownload_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  learningCategory LearningCategory? @relation("fk_learndownloads_category", fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([categoryId], map: "idx_learndownloads_category")
+  @@map("learning_downloads")
+}
+
+model TeacherTraining {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  title String @db.VarChar(200)
+  description String? @db.Text
+  mode TeacherTrainingMode
+  startsAt DateTime? @map("starts_at")
+  endsAt DateTime? @map("ends_at")
+  status TeacherTrainingStatus
+  createdAt DateTime @default(now()) @map("created_at")
+  @@map("teacher_trainings")
+}
+
+model SuccessStory {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt? @map("school_id") @db.UnsignedBigInt
+  title String @db.VarChar(220)
+  slug String @db.VarChar(250)
+  content String @db.MediumText
+  coverFileId BigInt? @map("cover_file_id") @db.UnsignedBigInt
+  coverFile UploadedFile? @relation("fk_successstory_coverfileid", fields: [coverFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  status SuccessStoryStatus
+  publishedAt DateTime? @map("published_at")
+  school School? @relation("fk_successstories_school", fields: [schoolId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([slug], map: "uq_successstories_slug")
+  @@map("success_stories")
+}
+
+model Resource {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  categoryId BigInt? @map("category_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  resourceType ResourceResourceType @map("resource_type")
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_resource_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  content String? @db.MediumText
+  createdAt DateTime @default(now()) @map("created_at")
+  learningCategory LearningCategory? @relation("fk_resources_category", fields: [categoryId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([categoryId], map: "idx_resources_category")
+  @@map("resources")
+}
+
+model Event {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  title String @db.VarChar(200)
+  slug String @db.VarChar(220)
+  description String? @db.MediumText
+  eventType EventEventType @map("event_type")
+  mode EventMode
+  venue String? @db.VarChar(255)
+  startsAt DateTime @map("starts_at")
+  endsAt DateTime @map("ends_at")
+  capacity Int? @db.UnsignedInt
+  status EventStatus
+  bannerFileId BigInt? @map("banner_file_id") @db.UnsignedBigInt
+  bannerFile UploadedFile? @relation("fk_event_bannerfileid", fields: [bannerFileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@unique([slug], map: "uq_events_slug")
+  @@index([startsAt], map: "idx_events_starts")
+  eventRegistrations EventRegistration[] @relation("fk_eventreg_event")
+  @@map("events")
+}
+
+model EventRegistration {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  eventId BigInt @map("event_id") @db.UnsignedBigInt
+  schoolId BigInt? @map("school_id") @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  status EventRegistrationStatus
+  registeredAt DateTime @default(now()) @map("registered_at")
+  event Event @relation("fk_eventreg_event", fields: [eventId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School? @relation("fk_eventreg_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation("fk_eventreg_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([eventId, userId], map: "uq_eventreg_event_user")
+  @@index([schoolId], map: "idx_eventreg_school")
+  eventAttendance EventAttendance[] @relation("fk_eventattendance_reg")
+  eventCertificates EventCertificate[] @relation("fk_eventcert_reg")
+  @@map("event_registrations")
+}
+
+model EventAttendance {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  eventRegistrationId BigInt @map("event_registration_id") @db.UnsignedBigInt
+  eventRegistration EventRegistration @relation("fk_eventattendance_reg", fields: [eventRegistrationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([eventRegistrationId], map: "uq_eventattendance_reg")
+  @@map("event_attendance")
+}
+
+model EventCertificate {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  eventRegistrationId BigInt @map("event_registration_id") @db.UnsignedBigInt
+  fileId BigInt? @map("file_id") @db.UnsignedBigInt
+  uploadedFile UploadedFile? @relation("fk_eventcertificate_file", fields: [fileId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  issuedAt DateTime @default(now()) @map("issued_at")
+  eventRegistration EventRegistration @relation("fk_eventcert_reg", fields: [eventRegistrationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([eventRegistrationId], map: "uq_eventcert_reg")
+  @@map("event_certificates")
+}
+
+model SupportTicket {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  ticketNumber String @map("ticket_number") @db.VarChar(30)
+  raisedBy BigInt @map("raised_by") @db.UnsignedBigInt
+  schoolId BigInt? @map("school_id") @db.UnsignedBigInt
+  dealerId BigInt? @map("dealer_id") @db.UnsignedBigInt
+  subject String @db.VarChar(200)
+  description String @db.Text
+  category SupportTicketCategory
+  priority SupportTicketPriority
+  status SupportTicketStatus
+  assignedTo BigInt? @map("assigned_to") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  resolvedAt DateTime? @map("resolved_at")
+  user User @relation("fk_tickets_raisedby", fields: [raisedBy], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  school School? @relation("fk_tickets_school", fields: [schoolId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  dealer Dealer? @relation("fk_tickets_dealer", fields: [dealerId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  userRef User? @relation("fk_tickets_assignee", fields: [assignedTo], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([ticketNumber], map: "uq_tickets_number")
+  @@index([status, priority], map: "idx_tickets_status")
+  @@index([raisedBy], map: "idx_tickets_raisedby")
+  ticketReplies TicketReply[] @relation("fk_ticketreplies_ticket")
+  @@map("support_tickets")
+}
+
+model TicketReply {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  ticketId BigInt @map("ticket_id") @db.UnsignedBigInt
+  authorId BigInt @map("author_id") @db.UnsignedBigInt
+  message String @db.Text
+  isInternalNote Boolean @map("is_internal_note")
+  createdAt DateTime @default(now()) @map("created_at")
+  supportTicket SupportTicket @relation("fk_ticketreplies_ticket", fields: [ticketId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation("fk_ticketreplies_author", fields: [authorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([ticketId, createdAt], map: "idx_ticketreplies_ticket")
+  @@map("ticket_replies")
+}
+
+model Faq {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  category String? @db.VarChar(80)
+  question String @db.VarChar(300)
+  answer String @db.Text
+  displayOrder Int @map("display_order") @db.UnsignedSmallInt
+  isActive Boolean @map("is_active")
+  @@map("faqs")
+}
+
+model LiveChat {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  agentId BigInt? @map("agent_id") @db.UnsignedBigInt
+  status LiveChatStatus
+  startedAt DateTime @default(now()) @map("started_at")
+  closedAt DateTime? @map("closed_at")
+  user User @relation("fk_livechats_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userRef User? @relation("fk_livechats_agent", fields: [agentId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([userId], map: "idx_livechats_user")
+  liveChatMessages LiveChatMessage[] @relation("fk_chatmsg_chat")
+  @@map("live_chats")
+}
+
+model LiveChatMessage {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  liveChatId BigInt @map("live_chat_id") @db.UnsignedBigInt
+  senderId BigInt @map("sender_id") @db.UnsignedBigInt
+  message String @db.Text
+  sentAt DateTime @default(now()) @map("sent_at")
+  liveChat LiveChat @relation("fk_chatmsg_chat", fields: [liveChatId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  user User @relation("fk_chatmsg_sender", fields: [senderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([liveChatId, sentAt], map: "idx_chatmsg_chat")
+  @@map("live_chat_messages")
+}
+
+model Feedback {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  feedbackType FeedbackFeedbackType @map("feedback_type")
+  rating Int? @db.UnsignedTinyInt
+  message String? @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  user User @relation("fk_feedback_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([userId], map: "idx_feedback_user")
+  @@map("feedback")
+}
+
+model Notification {
+  id BigInt @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  body String? @db.VarChar(500)
+  notifType String @map("notif_type") @db.VarChar(60)
+  referenceType String? @map("reference_type") @db.VarChar(60)
+  referenceId BigInt? @map("reference_id") @db.UnsignedBigInt
+  isRead Boolean @map("is_read")
+  readAt DateTime? @map("read_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@id([id, createdAt])
+  @@index([userId, isRead, createdAt], map: "idx_notifications_user")
+  @@map("notifications")
+}
+
+model NotificationSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  channel NotificationSettingChannel
+  notifType String @map("notif_type") @db.VarChar(60)
+  isEnabled Boolean @map("is_enabled")
+  user User @relation("fk_notifsettings_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([userId, channel, notifType], map: "uq_notifsettings")
+  @@map("notification_settings")
+}
+
+enum WhatsappMessageStatus {
+  queued
+  processing
+  sent
+  delivered
+  read
+  failed
+}
+
+/// Delivery-tracking record for every WhatsApp notification attempt. `notificationId` /
+/// `notificationCreatedAt` point at the Notification row (composite PK) that is the system of
+/// record; this table is purely the WhatsApp-channel delivery ledger on top of it.
+model WhatsappMessageLog {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  notificationId BigInt? @map("notification_id") @db.UnsignedBigInt
+  notificationCreatedAt DateTime? @map("notification_created_at")
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  phone String @db.VarChar(20)
+  eventType String @map("event_type") @db.VarChar(60)
+  templateName String @map("template_name") @db.VarChar(100)
+  templateParams Json @map("template_params")
+  bodyPreview String? @map("body_preview") @db.VarChar(500)
+  status WhatsappMessageStatus
+  providerName String @map("provider_name") @db.VarChar(40)
+  providerMessageId String? @map("provider_message_id") @db.VarChar(150)
+  providerResponse Json? @map("provider_response")
+  errorMessage String? @map("error_message") @db.VarChar(500)
+  retryCount Int @default(0) @map("retry_count") @db.UnsignedTinyInt
+  queuedAt DateTime @default(now()) @map("queued_at")
+  sentAt DateTime? @map("sent_at")
+  deliveredAt DateTime? @map("delivered_at")
+  readAt DateTime? @map("read_at")
+  failedAt DateTime? @map("failed_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user User @relation("fk_whatsapplog_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([userId, createdAt], map: "idx_whatsapplog_user")
+  @@index([status], map: "idx_whatsapplog_status")
+  @@map("whatsapp_message_logs")
+}
+
+model EmailQueue {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  toEmail String @map("to_email") @db.VarChar(190)
+  subject String @db.VarChar(250)
+  body String @db.MediumText
+  status EmailQueueStatus
+  attempts Int @db.UnsignedTinyInt
+  sendAfter DateTime @default(now()) @map("send_after")
+  sentAt DateTime? @map("sent_at")
+  errorMessage String? @map("error_message") @db.VarChar(500)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([status, sendAfter], map: "idx_emailqueue_status")
+  @@map("email_queue")
+}
+
+model SmsQueue {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  toPhone String @map("to_phone") @db.VarChar(20)
+  message String @db.VarChar(500)
+  status SmsQueueStatus
+  attempts Int @db.UnsignedTinyInt
+  sendAfter DateTime @default(now()) @map("send_after")
+  sentAt DateTime? @map("sent_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([status, sendAfter], map: "idx_smsqueue_status")
+  @@map("sms_queue")
+}
+
+model PushQueue {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  deviceTokenId BigInt @map("device_token_id") @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  body String? @db.VarChar(500)
+  status PushQueueStatus
+  attempts Int @db.UnsignedTinyInt
+  sentAt DateTime? @map("sent_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  deviceToken DeviceToken @relation("fk_pushqueue_devicetoken", fields: [deviceTokenId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([status], map: "idx_pushqueue_status")
+  @@map("push_queue")
+}
+
+model AnalyticsSnapshot {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  scopeType AnalyticsSnapshotScopeType @map("scope_type")
+  scopeId BigInt? @map("scope_id") @db.UnsignedBigInt
+  metricName String @map("metric_name") @db.VarChar(100)
+  metricValue Decimal @map("metric_value") @db.Decimal(18, 2)
+  snapshotDate DateTime @map("snapshot_date") @db.Date
+  @@unique([scopeType, scopeId, metricName, snapshotDate], map: "uq_analytics_scope_metric_date")
+  @@index([snapshotDate], map: "idx_analytics_date")
+  @@map("analytics_snapshots")
+}
+
+model DashboardWidget {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  widgetKey String @map("widget_key") @db.VarChar(60)
+  position Int @db.UnsignedSmallInt
+  isVisible Boolean @map("is_visible")
+  config Json?
+  user User @relation("fk_dashwidget_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([userId, widgetKey], map: "uq_dashwidget_user_key")
+  @@map("dashboard_widgets")
+}
+
+model RecentActivity {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt @map("user_id") @db.UnsignedBigInt
+  activityType String @map("activity_type") @db.VarChar(60)
+  description String @db.VarChar(255)
+  referenceType String? @map("reference_type") @db.VarChar(60)
+  referenceId BigInt? @map("reference_id") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  user User @relation("fk_recentactivity_user", fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([userId, createdAt], map: "idx_recentactivity_user")
+  @@map("recent_activity")
+}
+
+model Announcement {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  title String @db.VarChar(200)
+  body String @db.Text
+  audience AnnouncementAudience
+  startsAt DateTime @default(now()) @map("starts_at")
+  endsAt DateTime? @map("ends_at")
+  isActive Boolean @map("is_active")
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([audience, isActive], map: "idx_announcements_audience")
+  @@map("announcements")
+}
+
+model UploadedFile {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  uuid String @default(uuid()) @db.Char(36)
+  uploadedBy BigInt? @map("uploaded_by") @db.UnsignedBigInt
+  fileName String @map("file_name") @db.VarChar(255)
+  filePath String @map("file_path") @db.VarChar(500)
+  mimeType String @map("mime_type") @db.VarChar(100)
+  fileSizeBytes BigInt @map("file_size_bytes") @db.UnsignedBigInt
+  storageProvider UploadedFileStorageProvider @map("storage_provider")
+  createdAt DateTime @default(now()) @map("created_at")
+  deletedAt DateTime? @map("deleted_at")
+  user User? @relation("fk_uploadedfiles_user", fields: [uploadedBy], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([uuid], map: "uq_uploadedfiles_uuid")
+  @@index([uploadedBy], map: "idx_uploadedfiles_uploader")
+  media Media[] @relation("fk_media_file")
+  documents Document[] @relation("fk_documents_file")
+  attachments Attachment[] @relation("fk_attachments_file")
+  schoolDocuments SchoolDocument[] @relation("fk_schooldocument_file")
+  dealerDocuments DealerDocument[] @relation("fk_dealerdocument_file")
+  productImages ProductImage[] @relation("fk_productimage_file")
+  productVideos ProductVideo[] @relation("fk_productvideo_file")
+  kitImages KitImage[] @relation("fk_kitimage_file")
+  books Book[] @relation("fk_book_file")
+  worksheets Worksheet[] @relation("fk_worksheet_file")
+  teacherKits TeacherKit[] @relation("fk_teacherkit_file")
+  assessments Assessment[] @relation("fk_assessment_file")
+  certificates Certificate[] @relation("fk_certificate_file")
+  downloads Download[] @relation("fk_download_file")
+  uniformDesigns UniformDesign[] @relation("fk_uniformdesign_file")
+  brandingGallerys BrandingGallery[] @relation("fk_brandinggallery_file")
+  customizationFiles CustomizationFile[] @relation("fk_customizationfile_file")
+  productionCheckpointImages ProductionCheckpointImage[] @relation("fk_productioncheckpointimage_file")
+  invoices Invoice[] @relation("fk_invoice_file")
+  learningDownloads LearningDownload[] @relation("fk_learningdownload_file")
+  resources Resource[] @relation("fk_resource_file")
+  eventCertificates EventCertificate[] @relation("fk_eventcertificate_file")
+  @@map("uploaded_files")
+  schools_logoFile School[] @relation("fk_school_logofileid")
+  dealers_logoFile Dealer[] @relation("fk_dealer_logofileid")
+  categorys_iconFile Category[] @relation("fk_category_iconfileid")
+  brands_logoFile Brand[] @relation("fk_brand_logofileid")
+  collections_bannerFile Collection[] @relation("fk_collection_bannerfileid")
+  idCards_templateFile IdCard[] @relation("fk_idcard_templatefileid")
+  blogs_coverFile Blog[] @relation("fk_blog_coverfileid")
+  learningVideos_thumbnailFile LearningVideo[] @relation("fk_learningvideo_thumbnailfileid")
+  successStorys_coverFile SuccessStory[] @relation("fk_successstory_coverfileid")
+  events_bannerFile Event[] @relation("fk_event_bannerfileid")
+}
+
+model Media {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  mediaType MediaMediaType @map("media_type")
+  widthPx Int? @map("width_px") @db.UnsignedInt
+  heightPx Int? @map("height_px") @db.UnsignedInt
+  durationSeconds Int? @map("duration_seconds") @db.UnsignedInt
+  uploadedFile UploadedFile @relation("fk_media_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([fileId], map: "idx_media_file")
+  @@map("media")
+}
+
+model Document {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  documentCategory String? @map("document_category") @db.VarChar(80)
+  uploadedFile UploadedFile @relation("fk_documents_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([fileId], map: "idx_documents_file")
+  @@map("documents")
+}
+
+model Attachment {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  fileId BigInt @map("file_id") @db.UnsignedBigInt
+  attachableType String @map("attachable_type") @db.VarChar(60)
+  attachableId BigInt @map("attachable_id") @db.UnsignedBigInt
+  createdAt DateTime @default(now()) @map("created_at")
+  uploadedFile UploadedFile @relation("fk_attachments_file", fields: [fileId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@index([attachableType, attachableId], map: "idx_attachments_polymorphic")
+  @@map("attachments")
+}
+
+model ApplicationSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  settingKey String @map("setting_key") @db.VarChar(100)
+  settingValue String? @map("setting_value") @db.Text
+  valueType ApplicationSettingValueType @map("value_type")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  @@unique([settingKey], map: "uq_appsettings_key")
+  @@map("application_settings")
+}
+
+model SchoolSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  schoolId BigInt @map("school_id") @db.UnsignedBigInt
+  settingKey String @map("setting_key") @db.VarChar(100)
+  settingValue String? @map("setting_value") @db.Text
+  school School @relation("fk_schoolsettings_school", fields: [schoolId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([schoolId, settingKey], map: "uq_schoolsettings")
+  @@map("school_settings")
+}
+
+model DealerSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  settingKey String @map("setting_key") @db.VarChar(100)
+  settingValue String? @map("setting_value") @db.Text
+  dealer Dealer @relation("fk_dealersettings_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  @@unique([dealerId, settingKey], map: "uq_dealersettings")
+  @@map("dealer_settings")
+}
+
+model PaymentSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  providerName String @map("provider_name") @db.VarChar(60)
+  configKey String @map("config_key") @db.VarChar(100)
+  configValue String? @map("config_value") @db.Text
+  isActive Boolean @map("is_active")
+  @@unique([providerName, configKey], map: "uq_paysettings")
+  @@map("payment_settings")
+}
+
+model EmailSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  configKey String @map("config_key") @db.VarChar(100)
+  configValue String? @map("config_value") @db.Text
+  @@unique([configKey], map: "uq_emailsettings_key")
+  @@map("email_settings")
+}
+
+model SmsSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  configKey String @map("config_key") @db.VarChar(100)
+  configValue String? @map("config_value") @db.Text
+  @@unique([configKey], map: "uq_smssettings_key")
+  @@map("sms_settings")
+}
+
+model ThemeSetting {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  scopeType ThemeSettingScopeType @map("scope_type")
+  scopeId BigInt? @map("scope_id") @db.UnsignedBigInt
+  configKey String @map("config_key") @db.VarChar(100)
+  configValue String? @map("config_value") @db.Text
+  @@unique([scopeType, scopeId, configKey], map: "uq_themesettings")
+  @@map("theme_settings")
+}
+
+model AuditLog {
+  id BigInt @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt? @map("user_id") @db.UnsignedBigInt
+  action String @db.VarChar(100)
+  entityType String @map("entity_type") @db.VarChar(60)
+  entityId BigInt @map("entity_id") @db.UnsignedBigInt
+  oldValues Json? @map("old_values")
+  newValues Json? @map("new_values")
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@id([id, createdAt])
+  @@index([entityType, entityId], map: "idx_auditlogs_entity")
+  @@index([userId, createdAt], map: "idx_auditlogs_user")
+  @@map("audit_logs")
+}
+
+model ActivityLog {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt? @map("user_id") @db.UnsignedBigInt
+  activity String @db.VarChar(150)
+  metadata Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  user User? @relation("fk_activitylogs_user", fields: [userId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@index([userId, createdAt], map: "idx_activitylogs_user")
+  @@map("activity_logs")
+}
+
+model ErrorLog {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  errorLevel ErrorLogErrorLevel @map("error_level")
+  message String @db.Text
+  stackTrace String? @map("stack_trace") @db.MediumText
+  context Json?
+  createdAt DateTime @default(now()) @map("created_at")
+  @@index([errorLevel, createdAt], map: "idx_errorlogs_level_date")
+  @@map("error_logs")
+}
+
+model ApiLog {
+  id BigInt @default(autoincrement()) @db.UnsignedBigInt
+  userId BigInt? @map("user_id") @db.UnsignedBigInt
+  method String @db.VarChar(10)
+  endpoint String @db.VarChar(255)
+  statusCode Int @map("status_code") @db.UnsignedSmallInt
+  responseTimeMs Int? @map("response_time_ms") @db.UnsignedInt
+  ipAddress String? @map("ip_address") @db.VarChar(45)
+  createdAt DateTime @default(now()) @map("created_at")
+  @@id([id, createdAt])
+  @@index([endpoint, createdAt], map: "idx_apilogs_endpoint")
+  @@index([userId], map: "idx_apilogs_user")
+  @@map("api_logs")
+}
+
+enum WhatsappConversationState {
+  idle
+  awaiting_quotation_price
+  awaiting_quotation_confirmation
+  awaiting_work_order_ack
+  awaiting_dispatch_details
+  awaiting_delivery_confirmation
+}
+
+/// One row per dealer — the dealer's only "session" in the system now that there is no
+/// login portal for dealers (v1.0 decision: dealers interact exclusively via WhatsApp).
+/// Tracks which step of a conversational flow (quotation negotiation, work-order
+/// acknowledgement, dispatch capture, delivery confirmation) the dealer is currently in.
+model WhatsappConversation {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  dealerId BigInt @map("dealer_id") @db.UnsignedBigInt
+  phone String @db.VarChar(20)
+  state WhatsappConversationState @default(idle)
+  contextData Json? @map("context_data")
+  referenceType String? @map("reference_type") @db.VarChar(50)
+  referenceId BigInt? @map("reference_id") @db.UnsignedBigInt
+  lastInboundAt DateTime? @map("last_inbound_at")
+  lastOutboundAt DateTime? @map("last_outbound_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @updatedAt @map("updated_at")
+  dealer Dealer @relation("fk_whatsappconv_dealer", fields: [dealerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  inboundMessages WhatsappInboundMessage[] @relation("fk_whatsappinbound_conversation")
+  @@unique([dealerId], map: "uq_whatsappconv_dealer")
+  @@index([phone], map: "idx_whatsappconv_phone")
+  @@map("whatsapp_conversations")
+}
+
+/// Raw log of every inbound WhatsApp message received via the Meta webhook, independent of
+/// WhatsappMessageLog (which is outbound-only). Kept even for messages that fail to process,
+/// so nothing Meta delivers is ever silently dropped.
+model WhatsappInboundMessage {
+  id BigInt @id @default(autoincrement()) @db.UnsignedBigInt
+  conversationId BigInt? @map("conversation_id") @db.UnsignedBigInt
+  providerMessageId String @map("provider_message_id") @db.VarChar(100)
+  fromPhone String @map("from_phone") @db.VarChar(20)
+  messageType String @map("message_type") @db.VarChar(30)
+  bodyText String? @map("body_text") @db.Text
+  rawPayload Json @map("raw_payload")
+  processedAt DateTime? @map("processed_at")
+  processingError String? @map("processing_error") @db.Text
+  createdAt DateTime @default(now()) @map("created_at")
+  conversation WhatsappConversation? @relation("fk_whatsappinbound_conversation", fields: [conversationId], references: [id], onDelete: SetNull, onUpdate: Cascade)
+  @@unique([providerMessageId], map: "uq_whatsappinbound_providermsgid")
+  @@index([fromPhone], map: "idx_whatsappinbound_fromphone")
+  @@index([processedAt], map: "idx_whatsappinbound_processedat")
+  @@map("whatsapp_inbound_messages")
+}

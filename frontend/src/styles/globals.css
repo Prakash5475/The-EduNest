@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 98%;        /* #FAFAFA */
+    --foreground: 0 0% 17%;        /* #2C2C2C */
+
+    --card: 0 0% 100%;             /* #FFFFFF */
+    --card-foreground: 0 0% 17%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 17%;
+
+    --primary: 4 90% 58%;          /* #F44336 */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 207 76% 42%;      /* #1976D2 */
+    --secondary-foreground: 0 0% 100%;
+
+    --accent: 45 100% 51%;         /* #FFC107 */
+    --accent-foreground: 0 0% 17%;
+
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 42%;
+
+    --destructive: 4 78% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 71% 38%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 17%;
+
+    --border: 0 0% 90%;
+    --input: 0 0% 88%;
+    --ring: 4 90% 58%;
+
+    --radius: 1.25rem;             /* 20px base */
+  }
+
+  .dark {
+    --background: 0 0% 9%;
+    --foreground: 0 0% 96%;
+    --card: 0 0% 13%;
+    --card-foreground: 0 0% 96%;
+    --popover: 0 0% 13%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 4 90% 58%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 207 76% 52%;
+    --secondary-foreground: 0 0% 100%;
+    --accent: 45 100% 51%;
+    --accent-foreground: 0 0% 13%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%;
+    --destructive: 4 78% 55%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 60% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 55%;
+    --warning-foreground: 0 0% 13%;
+    --border: 0 0% 22%;
+    --input: 0 0% 24%;
+    --ring: 4 90% 58%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  h1, h2, h3, h4 {
+    @apply font-display;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+
+  /* Visible keyboard focus, respected everywhere */
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply bg-border rounded-full;
+  }
+}
