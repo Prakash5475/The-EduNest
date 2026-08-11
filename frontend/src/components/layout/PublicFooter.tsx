@@ -74,13 +74,13 @@ export function PublicFooter() {
           <p className="text-sm font-semibold text-white">Get in Touch</p>
           <ul className="mt-4 space-y-3 text-sm text-white/70">
             <li className="flex items-start gap-2.5">
-              <MapPin className="mt-0.5 h-4 w-4 shrink-0" /> Baner, Pune, Maharashtra 411045
+              <MapPin className="mt-0.5 h-4 w-4 shrink-0" /> 101, G. Floor, Momin Apt, Lane No. 12, Dube Nagar, Wagholi, Pune – 411014
             </li>
             <li className="flex items-center gap-2.5">
-              <Phone className="h-4 w-4 shrink-0" /> +91 98765 43210
+              <Phone className="h-4 w-4 shrink-0" /> +91 77095 77305
             </li>
             <li className="flex items-center gap-2.5">
-              <Mail className="h-4 w-4 shrink-0" /> hello@theedunest.com
+              <Mail className="h-4 w-4 shrink-0" /> info.theedunest@com
             </li>
           </ul>
         </div>
