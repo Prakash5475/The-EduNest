@@ -17,7 +17,7 @@ export default function About() {
         <div className="container max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">About The EduNest</p>
           <h1 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
-            Simplifying school procurement, one bright start at a time.
+            Complete Solutions for Brighter Preschool Journeys.
           </h1>
           <p className="mt-4 text-muted-foreground">
             The EduNest connects schools with a vetted network of dealers to source books, uniforms,

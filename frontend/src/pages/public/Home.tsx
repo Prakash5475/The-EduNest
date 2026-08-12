@@ -58,12 +58,11 @@ export default function Home() {
               <Rocket className="h-3.5 w-3.5" /> Empowering Preschools
             </span>
             <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.1] text-foreground sm:text-5xl">
-              Nurturing <span className="text-primary">Today</span>,<br />
-              Empowering <span className="text-secondary">Tomorrow</span>.
+              Essential <span className="text-primary">For</span>,<br />
+              Bright <span className="text-secondary">Start</span>.
             </h1>
             <p className="mt-5 max-w-md text-muted-foreground">
-              We simplify preschool management and enrich learning experiences — from complete kits
-              to curriculum, branding, and everything schools need to run smoothly.
+              Empowering preschools with everything they need to learn, grow, thrive - from child-centric curriculum and academic materials to school essentials, branding, technology, and ongoing support.
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <Button size="lg" asChild className="gap-2">
