@@ -131,11 +131,10 @@ export default function About() {
         <div className="container max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">Our Team</p>
           <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
-            Meet the People Behind The EduNest
+            The Minds Behind The EduNest.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            A dedicated team working together to empower preschools with complete solutions and
-            exceptional support.
+            Thinkers, creators, and problem-solvers coming together to make preschool simpler, smarter, and better.
           </p>
         </div>
 
@@ -161,19 +160,6 @@ export default function About() {
             {TEAM.map((member) => (
               <TeamCard key={member.name} {...member} />
             ))}
-          </div>
-        </div>
-
-        {/* Banner */}
-        <div className="container mt-14">
-          <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-primary/10 px-6 py-6 text-center sm:flex-row sm:gap-5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg text-primary">
-              <Users className="h-7 w-7" />
-            </span>
-            <span className="hidden h-7 w-px bg-primary/20 sm:block" />
-            <p className="text-base font-medium">
-              Many Skills, One Nest — Building Brighter Preschool Journeys.
-            </p>
           </div>
         </div>
       </section>
