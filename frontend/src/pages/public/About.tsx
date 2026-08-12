@@ -14,30 +14,33 @@ const FOUNDER = {
   name: "Madhav Jaybhaye",
   role: "Founder",
   linkedin: "#",
+  image: "/team/madhav-jaybhaye.jpg",
 };
 
 const TEAM = [
-  { name: "Yogita Sharma", role: "Team Member", linkedin: "#" },
-  { name: "Tamanna Thakur", role: "Team Member", linkedin: "#https://www.linkedin.com/in/tamanna-thakur" },
-  { name: "Riya", role: "Team Member", linkedin: "#" },
-  { name: "", role: "Team Member", linkedin: "#" },
-  { name: "Yashi", role: "Team Member", linkedin: "#" },
-  { name: "Swati Panduche", role: "Team Member", linkedin: "#" },
-  { name: "Prakash Musmade", role: "Team Member", linkedin: "#" },
-  { name: "Devyani Khandat", role: "Team Member", linkedin: "#" },
-  { name: "Swapnil Maske", role: "Team Member", linkedin: "#" },
-  { name: "Pooja Nair", role: "Team Member", linkedin: "#" },
+  { name: "Yogita Sharma", role: "Team Member", linkedin: "#", image: ""C:\Users\Devyani\OneDrive\Tài liệu\Internship\The EduNest\tamanna thakur.jpeg"" },
+  { name: "Tamanna Thakur", role: "Team Member", linkedin: "https://www.linkedin.com/in/tamanna-thakur", image: "/team/tamanna-thakur.jpg" },
+  { name: "Riya", role: "Team Member", linkedin: "#", image: "/team/riya.jpg" },
+  { name: "", role: "Team Member", linkedin: "#", image: "" },
+  { name: "Yashi", role: "Team Member", linkedin: "#", image: "/team/yashi.jpg" },
+  { name: "Swati Panduche", role: "Team Member", linkedin: "#", image: "/team/swati-panduche.jpg" },
+  { name: "Prakash Musmade", role: "Team Member", linkedin: "#", image: "/team/prakash-musmade.jpg" },
+  { name: "Devyani Khandat", role: "Team Member", linkedin: "https://www.linkedin.com/in/devyani-khandat", image: "/team/devyani-khandat.jpg" },
+  { name: "Swapnil Maske", role: "Team Member", linkedin: "#", image: "/team/swapnil-maske.jpg" },
+  { name: "Pooja Nair", role: "Team Member", linkedin: "#", image: "/team/pooja-nair.jpg" },
 ];
 
 function TeamCard({
   name,
   role,
   linkedin,
+  image,
   featured = false,
 }: {
   name: string;
   role: string;
   linkedin: string;
+  image?: string;
   featured?: boolean;
 }) {
   return (
@@ -46,8 +49,17 @@ function TeamCard({
         featured ? "border-2 border-primary" : ""
       }`}
     >
-      <div className="flex aspect-[4/3.4] w-full items-center justify-center rounded-lg bg-muted">
-        <User className="h-10 w-10 text-muted-foreground/40" strokeWidth={1.5} />
+      <div className="flex aspect-[4/3.4] w-full items-center justify-center overflow-hidden rounded-lg bg-muted">
+        {image ? (
+          <img
+            src={image}
+            alt={name}
+            className="h-full w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <User className="h-10 w-10 text-muted-foreground/40" strokeWidth={1.5} />
+        )}
       </div>
       <div>
         <p className="text-sm font-semibold">{name}</p>
@@ -75,7 +87,6 @@ export default function About() {
           </h1>
           <p className="mt-4 text-muted-foreground">
             The EduNest brings learning, school essentials, branding, and technology together in one complete ecosystem for preschools. We help schools simplify everyday operations, strengthen their identity, and create joyful, well-organized learning experiences where every child comes first.
-
           </p>
         </div>
       </section>
