@@ -1,4 +1,4 @@
-import { ShieldCheck, Target, Users, Award } from "lucide-react";
+import { ShieldCheck, Target, Users, Award, Linkedin, User } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { schools } from "@/data/schools";
 import { dealers } from "@/data/dealers";
@@ -9,6 +9,60 @@ const STATS = [
   { label: "Products Catalogued", value: "2,500+", icon: Target },
   { label: "Years of Trust", value: "12+", icon: Award },
 ];
+
+const FOUNDER = {
+  name: "Madhav Jaybhaye",
+  role: "Founder",
+  linkedin: "#",
+};
+
+const TEAM = [
+  { name: "Ananya Sharma", role: "Team Member", linkedin: "#" },
+  { name: "Rohit Verma", role: "Team Member", linkedin: "#" },
+  { name: "Neha Gupta", role: "Team Member", linkedin: "#" },
+  { name: "Arjun Mehta", role: "Team Member", linkedin: "#" },
+  { name: "Priya Singh", role: "Team Member", linkedin: "#" },
+  { name: "Karan Patel", role: "Team Member", linkedin: "#" },
+  { name: "Isha Verma", role: "Team Member", linkedin: "#" },
+  { name: "Manish Yadav", role: "Team Member", linkedin: "#" },
+  { name: "Vikram Joshi", role: "Team Member", linkedin: "#" },
+  { name: "Pooja Nair", role: "Team Member", linkedin: "#" },
+];
+
+function TeamCard({
+  name,
+  role,
+  linkedin,
+  featured = false,
+}: {
+  name: string;
+  role: string;
+  linkedin: string;
+  featured?: boolean;
+}) {
+  return (
+    <Card
+      className={`flex flex-col items-center gap-3 p-4 text-center transition-transform hover:-translate-y-1 hover:shadow-md ${
+        featured ? "border-2 border-primary" : ""
+      }`}
+    >
+      <div className="flex aspect-[4/3.4] w-full items-center justify-center rounded-lg bg-muted">
+        <User className="h-10 w-10 text-muted-foreground/40" strokeWidth={1.5} />
+      </div>
+      <div>
+        <p className="text-sm font-semibold">{name}</p>
+        <p className="mt-0.5 text-xs font-medium text-primary">{role}</p>
+      </div>
+      <a
+        href={linkedin}
+        aria-label={`${name} on LinkedIn`}
+        className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground transition-opacity hover:opacity-90"
+      >
+        <Linkedin className="h-3.5 w-3.5" />
+      </a>
+    </Card>
+  );
+}
 
 export default function About() {
   return (
@@ -56,6 +110,58 @@ export default function About() {
                helping preschools save time, reduce stress, maintain consistency, and deliver better learning experiences.
             </p>
           </Card>
+        </div>
+      </section>
+
+      {/* Meet the Team */}
+      <section className="py-16">
+        <div className="container max-w-3xl text-center">
+          <p className="text-sm font-semibold uppercase tracking-wide text-primary">Our Team</p>
+          <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
+            Meet the People Behind The EduNest
+          </h2>
+          <p className="mt-4 text-muted-foreground">
+            A dedicated team working together to empower preschools with complete solutions and
+            exceptional support.
+          </p>
+        </div>
+
+        {/* Founder */}
+        <div className="container mt-12">
+          <p className="text-center text-sm font-semibold uppercase tracking-wide text-primary">
+            Founder
+          </p>
+          <div className="mt-6 flex justify-center">
+            <div className="w-52">
+              <TeamCard featured {...FOUNDER} />
+            </div>
+          </div>
+        </div>
+
+        {/* Team grid */}
+        <div className="container mt-14">
+          <p className="text-center text-sm font-semibold uppercase tracking-wide text-primary">
+            Our Team
+          </p>
+          <div className="mx-auto mt-1 mb-8 h-0.5 w-6 rounded-full bg-primary" />
+          <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
+            {TEAM.map((member) => (
+              <TeamCard key={member.name} {...member} />
+            ))}
+          </div>
+        </div>
+
+        {/* Banner */}
+        <div className="container mt-14">
+          <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-primary/10 px-6 py-6 text-center sm:flex-row sm:gap-5">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg text-primary">
+              <Users className="h-7 w-7" />
+            </span>
+            <span className="hidden h-7 w-px bg-primary/20 sm:block" />
+            <p className="text-base font-medium">
+              Different Skills. One Vision. Together We Nurture Futures.
+            </p>
+          </div>
         </div>
       </section>
     </div>
