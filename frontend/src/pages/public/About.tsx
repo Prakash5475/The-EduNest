@@ -118,11 +118,10 @@ export default function About() {
         <div className="container max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">Our Team</p>
           <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
-            Meet the People Behind The EduNest
+            The Minds Behind The EduNest.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            A dedicated team working together to empower preschools with complete solutions and
-            exceptional support.
+            Thinkers, creators, and problem-solvers coming together to make preschool simpler, smarter, and better.
           </p>
         </div>
 
@@ -159,7 +158,7 @@ export default function About() {
             </span>
             <span className="hidden h-7 w-px bg-primary/20 sm:block" />
             <p className="text-base font-medium">
-              Different Skills. One Vision. Together We Nurture Futures.
+              The Minds Behind The EduNest.
             </p>
           </div>
         </div>
