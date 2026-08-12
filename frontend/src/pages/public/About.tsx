@@ -17,15 +17,15 @@ const FOUNDER = {
 };
 
 const TEAM = [
-  { name: "Ananya Sharma", role: "Team Member", linkedin: "#" },
-  { name: "Rohit Verma", role: "Team Member", linkedin: "#" },
-  { name: "Neha Gupta", role: "Team Member", linkedin: "#" },
-  { name: "Arjun Mehta", role: "Team Member", linkedin: "#" },
-  { name: "Priya Singh", role: "Team Member", linkedin: "#" },
-  { name: "Karan Patel", role: "Team Member", linkedin: "#" },
-  { name: "Isha Verma", role: "Team Member", linkedin: "#" },
-  { name: "Manish Yadav", role: "Team Member", linkedin: "#" },
-  { name: "Vikram Joshi", role: "Team Member", linkedin: "#" },
+  { name: "Yogita Sharma", role: "Team Member", linkedin: "#" },
+  { name: "Tamanna Thakur", role: "Team Member", linkedin: "#https://www.linkedin.com/in/tamanna-thakur" },
+  { name: "Riya", role: "Team Member", linkedin: "#" },
+  { name: "", role: "Team Member", linkedin: "#" },
+  { name: "Yashi", role: "Team Member", linkedin: "#" },
+  { name: "Swati Panduche", role: "Team Member", linkedin: "#" },
+  { name: "Prakash Musmade", role: "Team Member", linkedin: "#" },
+  { name: "Devyani Khandat", role: "Team Member", linkedin: "#" },
+  { name: "Swapnil Maske", role: "Team Member", linkedin: "#" },
   { name: "Pooja Nair", role: "Team Member", linkedin: "#" },
 ];
 
