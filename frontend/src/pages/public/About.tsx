@@ -26,7 +26,7 @@ const TEAM = [
   { name: "Swapnil Maske", role: "Team Member", linkedin: "https://www.linkedin.com/in/swapnil-maske-45017a423", photo: "" },
   { name: "Prakash Musmade", role: "Team Member", linkedin: "https://www.linkedin.com/in/prakash-musmade-153ab7287", photo: "" },
   { name: "Swati Panduche", role: "Team Member", linkedin: "https://www.linkedin.com/in/swati-panduche", photo: "/team/swati panduche.jpeg" },
-  { name: "Devyani Khandat", role: "Team Member", linkedin: "https://www.linkedin.com/in/devyani-khandat", photo: "" },
+  { name: "Devyani Khandat", role: "Team Member", linkedin: "https://www.linkedin.com/in/devyani-khandat", photo: "/team/devyani khandat.jpeg" },
   { name: "Tammana Thakur", role: "Team Member", linkedin: "https://www.linkedin.com/in/tamanna-thakur", photo: "/team/tammana.jpeg" },
   { name: "Yogita Sharma", role: "Team Member", linkedin: "#", photo: "" },
   { name: "Kartika Srivastava", role: "Team Member", linkedin: "https://www.linkedin.com/in/kartika-srivastava-987456252", photo: "/team/kartika.jpeg" },
