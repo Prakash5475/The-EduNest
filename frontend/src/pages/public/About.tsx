@@ -28,7 +28,7 @@ const TEAM = [
   { name: "Swati Panduche", role: "Team Member", linkedin: "https://www.linkedin.com/in/swati-panduche", photo: "/team/swati panduche.jpeg" },
   { name: "Devyani Khandat", role: "Team Member", linkedin: "https://www.linkedin.com/in/devyani-khandat", photo: "/team/Devyani.jpeg" },
   { name: "Tammana Thakur", role: "Team Member", linkedin: "https://www.linkedin.com/in/tamanna-thakur", photo: "/team/tammana.jpeg" },
-  { name: "Yogita Sharma", role: "Team Member", linkedin: "#", photo: "" },
+  { name: "Yogita Sharma", role: "Team Member", linkedin: "https://www.linkedin.com/in/yogita-sharma-636b02220", photo: "/team/yogita.jpeg" },
   { name: "Kartika Srivastava", role: "Team Member", linkedin: "https://www.linkedin.com/in/kartika-srivastava-987456252", photo: "/team/kartika.jpeg" },
   { name: "Riya Karande", role: "Team Member", linkedin: "https://www.linkedin.com/in/riya-karande-736495201", photo: "" },
   { name: "Vikrant Abhyankar", role: "Team Member", linkedin: "#", photo: "" },
