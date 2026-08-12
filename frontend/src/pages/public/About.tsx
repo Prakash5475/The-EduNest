@@ -54,7 +54,7 @@ export default function About() {
             <h2 className="font-display text-xl font-semibold">Our Approach</h2>
             <p className="mt-3 text-sm text-muted-foreground">
               We bring learning, school essentials, branding, technology, and ongoing support together under one integrated ecosystem,
-              helping preschools save time, reduce stress, maintain consistency, and deliver better learning experiences.
+               helping preschools save time, reduce stress, maintain consistency, and deliver better learning experiences.
             </p>
           </Card>
         </div>
