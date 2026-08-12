@@ -18,7 +18,7 @@ const FOUNDER = {
 };
 
 const TEAM = [
-  { name: "Yogita Sharma", role: "Team Member", linkedin: "#", image: ""C:\Users\Devyani\OneDrive\Tài liệu\Internship\The EduNest\tamanna thakur.jpeg"" },
+  { name: "Yogita Sharma", role: "Team Member", linkedin: "#", image: "C:\Users\Devyani\OneDrive\Tài liệu\Internship\The EduNest\tamanna thakur.jpeg" },
   { name: "Tamanna Thakur", role: "Team Member", linkedin: "https://www.linkedin.com/in/tamanna-thakur", image: "/team/tamanna-thakur.jpg" },
   { name: "Riya", role: "Team Member", linkedin: "#", image: "/team/riya.jpg" },
   { name: "", role: "Team Member", linkedin: "#", image: "" },
