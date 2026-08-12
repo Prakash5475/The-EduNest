@@ -10,37 +10,42 @@ const STATS = [
   { label: "Years of Trust", value: "12+", icon: Award },
 ];
 
+// 👇 Add your founder's photo here. Place the image file in `public/team/`
+// (e.g. public/team/madhav.jpg) and reference it as "/team/madhav.jpg" below.
+// Leave photo as "" to show a placeholder icon instead.
 const FOUNDER = {
   name: "Madhav Jaybhaye",
   role: "Founder",
   linkedin: "#",
-  image: "/team/madhav-jaybhaye.jpg",
+  photo: "", // e.g. "/team/madhav.jpg"
 };
 
+// 👇 Add each team member's photo the same way — put files in `public/team/`
+// and set the matching path here. Leave photo as "" for a placeholder icon.
 const TEAM = [
-  { name: "Yogita Sharma", role: "Team Member", linkedin: "#", image: "C:\Users\Devyani\OneDrive\Tài liệu\Internship\The EduNest\tamanna thakur.jpeg" },
-  { name: "Tamanna Thakur", role: "Team Member", linkedin: "https://www.linkedin.com/in/tamanna-thakur", image: "/team/tamanna-thakur.jpg" },
-  { name: "Riya", role: "Team Member", linkedin: "#", image: "/team/riya.jpg" },
-  { name: "", role: "Team Member", linkedin: "#", image: "" },
-  { name: "Yashi", role: "Team Member", linkedin: "#", image: "/team/yashi.jpg" },
-  { name: "Swati Panduche", role: "Team Member", linkedin: "#", image: "/team/swati-panduche.jpg" },
-  { name: "Prakash Musmade", role: "Team Member", linkedin: "#", image: "/team/prakash-musmade.jpg" },
-  { name: "Devyani Khandat", role: "Team Member", linkedin: "https://www.linkedin.com/in/devyani-khandat", image: "/team/devyani-khandat.jpg" },
-  { name: "Swapnil Maske", role: "Team Member", linkedin: "#", image: "/team/swapnil-maske.jpg" },
-  { name: "Pooja Nair", role: "Team Member", linkedin: "#", image: "/team/pooja-nair.jpg" },
+  { name: "Swapnil Maske", role: "Team Member", linkedin: "https://www.linkedin.com/in/swapnil-maske-45017a423", photo: "" },
+  { name: "Prakash Musmade", role: "Team Member", linkedin: "https://www.linkedin.com/in/prakash-musmade-153ab7287", photo: "" },
+  { name: "Swati Panduche", role: "Team Member", linkedin: "https://www.linkedin.com/in/swati-panduche", photo: "/team/swati panduche.jpeg" },
+  { name: "Devyani Khandat", role: "Team Member", linkedin: "https://www.linkedin.com/in/devyani-khandat", photo: "" },
+  { name: "Tammana Thakur", role: "Team Member", linkedin: "https://www.linkedin.com/in/tamanna-thakur", photo: "/team/tammana.jpeg" },
+  { name: "Yogita Sharma", role: "Team Member", linkedin: "#", photo: "" },
+  { name: "Kartika Srivastava", role: "Team Member", linkedin: "https://www.linkedin.com/in/kartika-srivastava-987456252", photo: "/team/kartika.jpeg" },
+  { name: "Riya Karande", role: "Team Member", linkedin: "https://www.linkedin.com/in/riya-karande-736495201", photo: "" },
+  { name: "Vikrant Abhyankar", role: "Team Member", linkedin: "#", photo: "" },
+  { name: "Minakshi Khangayi", role: "Team Member", linkedin: "#", photo: "" },
 ];
 
 function TeamCard({
   name,
   role,
   linkedin,
-  image,
+  photo,
   featured = false,
 }: {
   name: string;
   role: string;
   linkedin: string;
-  image?: string;
+  photo?: string;
   featured?: boolean;
 }) {
   return (
@@ -50,13 +55,8 @@ function TeamCard({
       }`}
     >
       <div className="flex aspect-[4/3.4] w-full items-center justify-center overflow-hidden rounded-lg bg-muted">
-        {image ? (
-          <img
-            src={image}
-            alt={name}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
+        {photo ? (
+          <img src={photo} alt={name} className="h-full w-full object-cover" />
         ) : (
           <User className="h-10 w-10 text-muted-foreground/40" strokeWidth={1.5} />
         )}
@@ -86,7 +86,9 @@ export default function About() {
             Complete Solutions for Brighter Preschool Journeys.
           </h1>
           <p className="mt-4 text-muted-foreground">
-            The EduNest brings learning, school essentials, branding, and technology together in one complete ecosystem for preschools. We help schools simplify everyday operations, strengthen their identity, and create joyful, well-organized learning experiences where every child comes first.
+            The EduNest connects schools with a vetted network of dealers to source books, uniforms,
+            preschool kits, curriculum resources, and branding materials — all through a single,
+            transparent platform built for education procurement teams.
           </p>
         </div>
       </section>
@@ -129,10 +131,11 @@ export default function About() {
         <div className="container max-w-3xl text-center">
           <p className="text-sm font-semibold uppercase tracking-wide text-primary">Our Team</p>
           <h2 className="mt-2 font-display text-3xl font-semibold sm:text-4xl">
-            The Minds Behind The EduNest.
+            Meet the People Behind The EduNest
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Thinkers, creators, and problem-solvers coming together to make preschool simpler, smarter, and better.
+            A dedicated team working together to empower preschools with complete solutions and
+            exceptional support.
           </p>
         </div>
 
@@ -158,6 +161,19 @@ export default function About() {
             {TEAM.map((member) => (
               <TeamCard key={member.name} {...member} />
             ))}
+          </div>
+        </div>
+
+        {/* Banner */}
+        <div className="container mt-14">
+          <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-primary/10 px-6 py-6 text-center sm:flex-row sm:gap-5">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg text-primary">
+              <Users className="h-7 w-7" />
+            </span>
+            <span className="hidden h-7 w-px bg-primary/20 sm:block" />
+            <p className="text-base font-medium">
+              Many Skills, One Nest — Building Brighter Preschool Journeys.
+            </p>
           </div>
         </div>
       </section>
