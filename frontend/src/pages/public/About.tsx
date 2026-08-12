@@ -46,15 +46,15 @@ export default function About() {
           <Card className="p-8">
             <h2 className="font-display text-xl font-semibold">Our Mission</h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              To give every school — regardless of size or location — access to quality educational
-              essentials at fair, transparent prices, backed by dependable logistics and support.
+              To empower preschools with complete, child-centered solutions that simplify school management, enhance learning, 
+              strengthen school identity, and create a joyful, connected experience for children, teachers, and parents.
             </p>
           </Card>
           <Card className="p-8">
             <h2 className="font-display text-xl font-semibold">Our Approach</h2>
             <p className="mt-3 text-sm text-muted-foreground">
-              We combine a curated dealer marketplace with procurement tools purpose-built for
-              schools — quotation comparison, bulk ordering, invoicing, and dedicated account support.
+              We bring learning, school essentials, branding, technology, and ongoing support together under one integrated ecosystem,
+               helping preschools save time, reduce stress, maintain consistency, and deliver better learning experiences.
             </p>
           </Card>
         </div>
