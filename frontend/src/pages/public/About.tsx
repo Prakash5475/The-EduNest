@@ -20,9 +20,10 @@ export default function About() {
             Complete Solutions for Brighter Preschool Journeys.
           </h1>
           <p className="mt-4 text-muted-foreground">
-            The EduNest connects schools with a vetted network of dealers to source books, uniforms,
-            preschool kits, curriculum resources, and branding materials — all through a single,
-            transparent platform built for education procurement teams.
+            **About Us — Short & Modern**
+
+The EduNest brings learning, school essentials, branding, and technology together in one complete ecosystem for preschools. We help schools simplify everyday operations, strengthen their identity, and create joyful, well-organized learning experiences where every child comes first.
+
           </p>
         </div>
       </section>
