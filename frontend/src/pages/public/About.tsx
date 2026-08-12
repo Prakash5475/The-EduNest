@@ -149,19 +149,6 @@ export default function About() {
             ))}
           </div>
         </div>
-
-        {/* Banner */}
-        <div className="container mt-14">
-          <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-primary/10 px-6 py-6 text-center sm:flex-row sm:gap-5">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg text-primary">
-              <Users className="h-7 w-7" />
-            </span>
-            <span className="hidden h-7 w-px bg-primary/20 sm:block" />
-            <p className="text-base font-medium">
-              The Minds Behind The EduNest.
-            </p>
-          </div>
-        </div>
       </section>
     </div>
   );
