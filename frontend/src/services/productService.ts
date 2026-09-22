@@ -1,5 +1,8 @@
 import { apiClient } from "./apiClient";
 import type { Product, StockStatus } from "@/types";
+import productFallbackImage from "@/assets/logomark.png";
+
+export const PRODUCT_FALLBACK_IMAGE = productFallbackImage;
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined) ?? "/api/v1";
 
@@ -130,7 +133,7 @@ export function adaptProduct(p: ApiProduct): Product {
     category: p.category?.name ?? "General",
     subCategory: "",
     price: Number(p.basePrice),
-    images: images.length > 0 ? images : ["/placeholder-product.png"],
+    images: images.length > 0 ? images : [PRODUCT_FALLBACK_IMAGE],
     status: p.status === "active" ? "active" : "inactive",
     stockStatus: deriveStockStatus(p),
     stockQuantity: p.availability?.quantityAvailable ?? 0,

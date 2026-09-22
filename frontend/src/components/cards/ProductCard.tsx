@@ -6,6 +6,7 @@ import { paths } from "@/routes/paths";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { formatCurrency } from "@/lib/utils";
+import { PRODUCT_FALLBACK_IMAGE } from "@/services/productService";
 import type { Product } from "@/types";
 
 export function ProductCard({ product }: { product: Product }) {
@@ -20,9 +21,9 @@ export function ProductCard({ product }: { product: Product }) {
           src={product.images[0]}
           alt={product.name}
           onError={(event) => {
-            event.currentTarget.src = "/placeholder-product.png";
+            event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
           }}
-          className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          className="h-full w-full object-contain p-3 transition-transform duration-300 group-hover:scale-105"
         />
         {product.tag && (
           <Badge variant="default" className="absolute left-3 top-3">

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { ShoppingCart, Heart, ChevronRight, Truck, ShieldCheck, RotateCcw } from "lucide-react";
+import { ShoppingCart, Heart, ChevronRight, ChevronLeft, ChevronRight as ChevronRightIcon, Truck, ShieldCheck, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
@@ -9,7 +9,7 @@ import { QtyStepper } from "@/components/common/QtyStepper";
 import { ProductCard } from "@/components/cards/ProductCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { paths } from "@/routes/paths";
-import { getProductById, getRelatedProducts } from "@/services/productService";
+import { getProductById, getRelatedProducts, PRODUCT_FALLBACK_IMAGE } from "@/services/productService";
 import { useCart } from "@/context/CartContext";
 import { useWishlist } from "@/context/WishlistContext";
 import { formatCurrency } from "@/lib/utils";
@@ -65,6 +65,9 @@ export default function ProductDetails() {
     return <Navigate to={paths.shop} replace />;
   }
 
+  const previousImage = () => setActiveImage((current) => (current === 0 ? product.images.length - 1 : current - 1));
+  const nextImage = () => setActiveImage((current) => (current + 1) % product.images.length);
+
   return (
     <div className="container py-10">
       <nav className="mb-6 flex items-center gap-1.5 text-xs text-muted-foreground" aria-label="Breadcrumb">
@@ -79,22 +82,42 @@ export default function ProductDetails() {
 
       <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
         <div>
-          <div className="aspect-square overflow-hidden rounded-2xl bg-muted">
+          <div className="relative aspect-square overflow-hidden rounded-2xl bg-muted">
             <img
               src={product.images[activeImage]}
               alt={product.name}
               onError={(event) => {
-                event.currentTarget.src = "/placeholder-product.png";
+                event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
               }}
-              className="h-full w-full object-cover"
+              className="h-full w-full object-contain p-4"
             />
+            {product.images.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={previousImage}
+                  aria-label="Previous product image"
+                  className="absolute left-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-soft transition-colors hover:bg-white hover:text-primary"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextImage}
+                  aria-label="Next product image"
+                  className="absolute right-3 top-1/2 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-foreground shadow-soft transition-colors hover:bg-white hover:text-primary"
+                >
+                  <ChevronRightIcon className="h-5 w-5" />
+                </button>
+              </>
+            )}
           </div>
-          <div className="mt-4 flex gap-3">
+          <div className="mt-4 flex gap-3 overflow-x-auto pb-1">
             {product.images.map((img, idx) => (
               <button
                 key={img}
                 onClick={() => setActiveImage(idx)}
-                className={`h-16 w-16 overflow-hidden rounded-xl border-2 ${
+                className={`h-16 w-16 shrink-0 overflow-hidden rounded-xl border-2 ${
                   idx === activeImage ? "border-primary" : "border-border"
                 }`}
               >
@@ -102,9 +125,9 @@ export default function ProductDetails() {
                   src={img}
                   alt=""
                   onError={(event) => {
-                    event.currentTarget.src = "/placeholder-product.png";
+                    event.currentTarget.src = PRODUCT_FALLBACK_IMAGE;
                   }}
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-contain"
                 />
               </button>
             ))}

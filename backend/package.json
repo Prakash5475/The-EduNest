@@ -28,6 +28,7 @@
     "prisma:migrate:deploy": "prisma migrate deploy",
     "prisma:studio": "prisma studio",
     "prisma:seed": "ts-node prisma/seed.ts",
+    "setup": "npm run prisma:generate && npm run prisma:migrate:deploy && npm run prisma:seed",
     "prisma:pull": "prisma db pull",
     "prepare": "husky",
     "postinstall": "prisma generate || true"

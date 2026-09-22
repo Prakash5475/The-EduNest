@@ -1,0 +1,97 @@
+{
+  "version": "2.0",
+  "source_asset_pack": "edunest_productcatalogue_assets.zip",
+  "folder_name": "edunest_productcatalog_assets_v2",
+  "products": [
+    {
+      "name": "Polo T-Shirt",
+      "slug": "polo-t-shirt",
+      "image_folder": "polo_t-shirt",
+      "primary_image": "variant_01_back.jpg",
+      "gallery_image_count": 20,
+      "price": "₹600 MRP",
+      "category": "School Uniforms → Uniforms & Clothing → Student T-Shirts"
+    },
+    {
+      "name": "Hooded Jacket",
+      "slug": "hooded-jacket",
+      "image_folder": "hooded_jacket",
+      "primary_image": "variant_01_back.jpg",
+      "gallery_image_count": 12,
+      "price": "₹1,100 MRP",
+      "category": "School Uniforms → Uniforms & Clothing → Hooded Jackets"
+    },
+    {
+      "name": "Student Half Pant",
+      "slug": "student-half-pant",
+      "image_folder": "student_half_pant",
+      "primary_image": "variant_01_back.jpg",
+      "gallery_image_count": 12,
+      "price": "₹600 MRP",
+      "category": "School Uniforms → Uniforms & Clothing → Student Lowers → Half Pant"
+    },
+    {
+      "name": "Student Skirt",
+      "slug": "student-skirt",
+      "image_folder": "student_skirt",
+      "primary_image": "variant_01_back.jpg",
+      "gallery_image_count": 10,
+      "price": "₹600 MRP",
+      "category": "School Uniforms → Uniforms & Clothing → Student Lowers → Skirt"
+    },
+    {
+      "name": "PT Track Pants",
+      "slug": "pt-track-pants",
+      "image_folder": "pt_track_pants",
+      "primary_image": "variant_01_back.jpg",
+      "gallery_image_count": 10,
+      "price": "Not specified",
+      "category": "School Uniforms → Uniforms & Clothing → PT Track Pants"
+    },
+    {
+      "name": "School Backpack",
+      "slug": "school-backpack",
+      "image_folder": "school_backpack",
+      "primary_image": "variant_01_back.jpg",
+      "gallery_image_count": 8,
+      "price": "To be decided / As per school requirement",
+      "category": "School Bags → Bags & Accessories → School Backpacks"
+    },
+    {
+      "name": "Student Baseball Cap",
+      "slug": "student-baseball-cap",
+      "image_folder": "student_baseball_cap",
+      "primary_image": "variant_01.jpg",
+      "gallery_image_count": 5,
+      "price": "Available on Request (a separate MRP for caps is not specified in the handbook)",
+      "category": "School Accessories → Student Accessories → Caps"
+    },
+    {
+      "name": "Striped School Socks",
+      "slug": "striped-school-socks",
+      "image_folder": "striped_school_socks",
+      "primary_image": "variant_01.jpg",
+      "gallery_image_count": 5,
+      "price": "Not disclosed",
+      "category": "School Accessories → Student Accessories → Socks"
+    },
+    {
+      "name": "Student Achievement Trophy",
+      "slug": "student-achievement-trophy",
+      "image_folder": "student_achievement_trophy",
+      "primary_image": "variant_01.jpg",
+      "gallery_image_count": 5,
+      "price": "Available on Request (a separate MRP for trophies is not specified)",
+      "category": "School Accessories → Student Accessories → Awards & Trophies"
+    },
+    {
+      "name": "Student Achievement Medal",
+      "slug": "student-achievement-medal",
+      "image_folder": "student_achievement_medal",
+      "primary_image": "variant_01.jpg",
+      "gallery_image_count": 4,
+      "price": "Available on Request (a separate MRP for medals is not specified)",
+      "category": "School Accessories → Student Accessories → Awards & Medals"
+    }
+  ]
+}
