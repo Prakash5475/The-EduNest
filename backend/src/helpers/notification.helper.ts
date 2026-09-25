@@ -28,6 +28,7 @@ export async function notifyUser(input: NotifyInput) {
       referenceType: input.referenceType,
       referenceId: input.referenceId,
       isRead: false,
+      createdAt: new Date(Math.floor(Date.now() / 1000) * 1000),
     },
   });
 
@@ -59,3 +60,4 @@ export async function notifyUsersWithRole(roleSlugs: string[], input: Omit<Notif
   });
   await Promise.all(users.map((u: { id: bigint }) => notifyUser({ ...input, userId: u.id })));
 }
+
